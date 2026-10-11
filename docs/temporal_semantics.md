@@ -26,7 +26,7 @@ Reset overrides all three operations, empties the queue, clears sticky
 faults, last-accepted history, pulse outputs and epoch status, and sets all
 24 GPIO bits to zero (in particular all bidirectional enables are zero).
 FIFO data bits are not reset: occupancy determines validity, so stale or
-unknown memory cannot dispatch. There are no power-up initializers in RTL.
+unknown memory cannot dispatch. There are no power-up initializers in production RTL.
 
 ## Admission and ordering
 

@@ -159,6 +159,24 @@ async def reset_and_epoch_edges(dut):
 
 
 @cocotb.test()
+async def atomic_gpio_data_and_direction_patterns(dut):
+    h = Harness(dut)
+    await h.cycle(reset=True)
+    patterns = [0, 0xFFFFFF, 0x555555, 0xAAAAAA, 1, 2, 4, 8,
+                0xAA55A5, 0x0055A5, 0x00AA5A, 0xFFAA5A, 0]
+    assert len(patterns) <= h.model.limit
+    for timestamp, state in enumerate(patterns, 1):
+        result = await h.cycle(event(timestamp, state))
+        assert result.accepted
+        if timestamp > 1:
+            assert result.executed.state.packed == patterns[timestamp - 2]
+    result = await h.cycle()
+    assert result.executed.state.packed == patterns[-1]
+    assert h.model.trace == [(t, GPIOState.unpack(s)) for t, s in enumerate(patterns, 1)]
+    assert h.model.faults == 0
+
+
+@cocotb.test()
 async def defensive_late_head_is_discarded(dut):
     h = Harness(dut)
     await h.cycle(reset=True)
