@@ -23,7 +23,7 @@ def run(top, module, parameters=None):
     for key, value in (parameters or {}).items():
         command += [f"-P{top}.{key}={value}"]
     command += [str(path) for path in sorted((ROOT / "src").glob("*.v"))]
-    if top != "chronos_guarded_engine":
+    if top in ("tb", "engine_tb"):
         command += [str(ROOT / "test" / f"{'tb' if top == 'tb' else 'engine_tb'}.v")]
     subprocess.run(command, check=True, cwd=ROOT)
     env = os.environ.copy()
