@@ -5,7 +5,10 @@ protocol-edge timing from variable software and control-flow latency.
 Accepted future GPIO events retain their scheduled clock edges while the
 producer continues working, stalls, or stops.
 
-**Current status: `CHRONOS_M0_LOGIC_VERIFIED_PHYSICAL_PENDING`**
+**Current status: `CHRONOS_M0_PHYSICAL_VERIFIED_CLOSURE_PENDING`**
+The original official GDS, final STA/DRC/LVS, precheck and repaired routed
+gate tests pass. Latest-head automatic GDS qualification is still running;
+PR #1 remains open until its mandatory checks complete.
 
 M0 contains a runnable independent model, a 32-bit timer, an ordered
 eight-entry event FIFO, a timestamp dispatcher, atomic 24-bit GPIO state,
@@ -131,9 +134,10 @@ Target: **50 MHz**, **6×4**. Standalone cell mapping is not timing closure.
 | --- | --- |
 | Mapped standard cells | 2,542 (standalone Yosys) |
 | Mapped cell area | 58,282.1568 µm² |
-| Routed utilization/setup/hold | Pending official flow |
-| Hardening/DRC/precheck/LVS | Pending official flow |
-| Gate-level integration | Pending routed netlist |
+| Routed cell utilization | 9.303% excluding filler |
+| Worst setup / hold slack | +7.1318 ns / +0.1069 ns across supplied corners |
+| Hardening/DRC/precheck/LVS | Original artifact PASS; latest-head GDS running |
+| Gate-level integration | Four unchanged pad suites PASS in repaired Linux CI |
 | FPGA or fabricated silicon | Not tested |
 
 Exact provenance, measurement scope and flow outcome are in

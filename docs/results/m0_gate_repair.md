@@ -31,6 +31,9 @@ python scripts/run_gates.py /path/to/tt_um_chronos.v /path/to/pdk/verilog
 **PASS: all four existing black-box top-pin suites** on the actual routed
 netlist from artifact 11706624174, including 2657 clocks of randomized host
 operations. No test body or assertion was modified or skipped.
-CI confirmation and precheck are still required before M0 closure.
+Linux CI confirmation: run 38153076915 at d3cb15e passes all four suites,
+and verifies that the production RTL/config/info files match the physical
+artifact revision. Original precheck job 114504657771 also passes.
+The latest-head automatic GDS run still must complete before M0 closure.
 The separate viewer failure is Pages configuration (404 on deploy), not a
 layout/check failure. The official GDS workflow is retained unchanged.
