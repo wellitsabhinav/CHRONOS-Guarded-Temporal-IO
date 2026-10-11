@@ -4,10 +4,12 @@ Recorded 2026-10-11. Target: **6×4 tiles, 50 MHz (20 ns)**,
 `tt_um_chronos`, IHP 130 nm CMOS5L. Production parameters are TIME_W=32,
 DEPTH=8, GPIO_W=24, with the programmable host loader included.
 
-Current classification: **CHRONOS_M0_PHYSICAL_VERIFIED_CLOSURE_PENDING**.
-The original physical artifact has completed signoff and precheck, and its
-routed gates pass the repaired CI test. The latest-head automatic GDS run
-is still running; PR #1 remains open until its mandatory checks complete.
+Current classification: **CHRONOS_M0_PHYSICAL_VERIFIED**.
+Official run 38153731952 at qualified head `7166d8b6adbe2e87c87f78569074c52d69423f5a`
+completed GDS, precheck and all four routed gate suites. The downloaded final
+artifact's curated metrics equal the original signoff values below, and its
+production RTL/config/info files match the checkout after newline normalization.
+PR closure remains subject to mandatory CI for the intended merge head.
 Functional evidence is [m0_verification.md](m0_verification.md).
 
 ## Standalone mapped-area result
@@ -63,13 +65,14 @@ replacement for the competition's CMOS5L action.
 | Check | Status |
 | --- | --- |
 | Official original GDS build | PASS, run 38148339314 |
+| Final qualification GDS build | PASS, run 38153731952 at 7166d8b |
 | Setup worst slack | fast +11.0246 ns / typical +10.6371 ns / slow +7.1318 ns |
 | Hold worst slack | fast +0.1069 ns / typical +0.2858 ns / slow +0.6272 ns |
 | Setup/hold violating paths | 0 at all three supplied nominal-RC corners |
 | Routing DRC / antenna | 0 / 0 |
 | Magic DRC / LVS | 0 errors / 0 errors |
-| Tiny Tapeout precheck | PASS, job 114504657771; final KLayout run completed |
-| Gate-level top-pin tests | Four suites PASS, repaired CI run 38153076915 (no SDF) |
+| Tiny Tapeout precheck | PASS, final job 114521330545; final KLayout run completed |
+| Gate-level top-pin tests | Four suites PASS, final official job 114521330559; zero failures/skips (no SDF) |
 | Routed standard cells / area | 4835 / 83952.3 µm²; 690 sequential cells |
 | Cell utilization | 9.303% of 902417 µm² core area, excluding filler occupancy |
 | Hardening runtime | About 40 minutes; started 14:43 UTC, signoff 15:23 UTC |
@@ -93,21 +96,23 @@ pins. The four unchanged black-box pad suites pass locally and in Linux CI.
 also asserts equality of production RTL/config/info files to the physical
 revision; qualification uses measured outputs and actual source comparison.
 No RTL behavior or physical configuration changed in the repair.
-Viewer deployment remains a separate Pages configuration failure (404);
-it is not part of the physical signoff result.
+The earlier viewer 404 was a separate Pages configuration failure. The user
+keeps Pages restricted to main, so only main runs layout deployment; hardware
+qualification still runs on development branches. [Policy and diagnosis](m0_viewer_policy.md)
+record the isolated workflow adjustment. Viewer publication is not physical signoff.
 
 ## Interpretation and next gate
 
 The unoptimized 448-bit flop event store and 32-bit timing/admission logic
-have a modest standalone mapped area. That supports continuing physical
-measurement; it does not yet answer the 50 MHz routed timing question.
-Do not lower the target without diagnosing any final timing failure.
-The original hardening/STA/DRC/LVS/precheck/gate evidence is now established.
-Latest-head GDS/CI completion is the remaining PR closure gate; do not merge
-while a mandatory latest-head job is pending. Preserve raw outputs as ignored local
-files or GitHub artifacts; commit curated metrics with provenance.
+have a modest standalone mapped area. Official routed STA now establishes
+50 MHz timing closure at the supplied corners, with the positive margins above.
+Hardening/STA/DRC/LVS/precheck/gate evidence is established at 7166d8b.
+Subsequent closure documentation and viewer-policy changes leave production
+hardware unchanged but still trigger normal CI; do not merge while a mandatory
+job for the intended merge head is pending. Preserve raw outputs as ignored
+local files or GitHub artifacts; commit curated metrics with provenance.
 
 The next architectural objective remains
-**CHRONOS_M1_GUARDED_FUTURES**, beginning with same-timestamp alternative
-semantics and predicate-resolution margin design. M0 contains no guards,
+**CHRONOS_M1_GUARDED_FUTURES**, implemented separately in draft PR #2.
+Its logic evidence is not M1 physical qualification. M0 contains no guards,
 CPU, UART/SPI/I²C firmware or fabricated-silicon evidence.

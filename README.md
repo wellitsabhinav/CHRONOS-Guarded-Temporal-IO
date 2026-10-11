@@ -5,10 +5,11 @@ protocol-edge timing from variable software and control-flow latency.
 Accepted future GPIO events retain their scheduled clock edges while the
 producer continues working, stalls, or stops.
 
-**Current status: `CHRONOS_M0_PHYSICAL_VERIFIED_CLOSURE_PENDING`**
-The original official GDS, final STA/DRC/LVS, precheck and repaired routed
-gate tests pass. Latest-head automatic GDS qualification is still running;
-PR #1 remains open until its mandatory checks complete.
+**Current status: `CHRONOS_M0_PHYSICAL_VERIFIED`**
+Official GDS, final STA/DRC/LVS, precheck and all four routed gate suites
+pass at qualified head `7166d8b`. Final artifact metrics and production
+source equality were inspected. PR closure requires mandatory CI at the
+intended merge head, including any subsequent documentation commit.
 
 M0 contains a runnable independent model, a 32-bit timer, an ordered
 eight-entry event FIFO, a timestamp dispatcher, atomic 24-bit GPIO state,
@@ -136,8 +137,8 @@ Target: **50 MHz**, **6×4**. Standalone cell mapping is not timing closure.
 | Mapped cell area | 58,282.1568 µm² |
 | Routed cell utilization | 9.303% excluding filler |
 | Worst setup / hold slack | +7.1318 ns / +0.1069 ns across supplied corners |
-| Hardening/DRC/precheck/LVS | Original artifact PASS; latest-head GDS running |
-| Gate-level integration | Four unchanged pad suites PASS in repaired Linux CI |
+| Hardening/DRC/precheck/LVS | PASS at qualified head 7166d8b, official run 38153731952 |
+| Gate-level integration | Four unchanged pad suites PASS in the official flow |
 | FPGA or fabricated silicon | Not tested |
 
 Exact provenance, measurement scope and flow outcome are in

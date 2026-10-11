@@ -34,6 +34,10 @@ operations. No test body or assertion was modified or skipped.
 Linux CI confirmation: run 38153076915 at d3cb15e passes all four suites,
 and verifies that the production RTL/config/info files match the physical
 artifact revision. Original precheck job 114504657771 also passes.
-The latest-head automatic GDS run still must complete before M0 closure.
-The separate viewer failure is Pages configuration (404 on deploy), not a
-layout/check failure. The official GDS workflow is retained unchanged.
+Final official run 38153731952 at qualified head 7166d8b completes GDS,
+precheck job 114521330545 and routed gate job 114521330559. The gate log
+reports TESTS=4 PASS=4 FAIL=0 SKIP=0; no test body changed.
+Mandatory CI must also complete for the intended merge head after closure edits.
+The separate viewer failure was Pages configuration, not a layout/check failure.
+[Main-only publication policy](m0_viewer_policy.md) matches the user's explicit
+choice; the hardware jobs and official action pins are retained.
