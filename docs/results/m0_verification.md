@@ -46,13 +46,14 @@ Verilator's filename warning alone is disabled because the inherited
 `project.v` contains the required `tt_um_chronos` module. Other diagnostics
 remain fatal. Simulator JUnit failures are checked even when vvp exits zero.
 
-The [M0 CI run](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/actions/runs/38148339400)
-passed model/core/top/lint/formal checks on Linux. The retained
-[top-pin test workflow](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/actions/runs/38148339322)
-and [documentation workflow](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/actions/runs/38148339317)
-also passed. Those runs precede the additional late-head and GPIO-pattern RTL regressions;
-the final branch CI verifies those additions. Run identifiers make this
-distinction explicit.
+The final [PR M0 CI run](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/actions/runs/38149832640)
+passed all 35 model cases, 24 core cases, four top cases, lint and formal
+checks on Linux at `5d267037ffa8a662856ce45b011c14e9a09044d4`, including
+the late-head and GPIO-pattern regressions. The retained
+[top-pin test workflow](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/actions/runs/38149762397)
+and [documentation workflow](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/actions/runs/38149762450)
+also passed at that commit. Earlier [M0 qualification](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/actions/runs/38148339400)
+at `98dff4f` covered the same production RTL before those additional tests.
 
 ## Meaningful random activity
 

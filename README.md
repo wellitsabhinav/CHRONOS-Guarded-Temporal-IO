@@ -117,6 +117,7 @@ proof. See [verification plan](docs/verification_plan.md) and [results](docs/res
 | Check | Current evidence |
 | --- | --- |
 | Python model | 35 tests pass, including 4096 exhaustive short request streams |
+| Core RTL | 24 cocotb cases pass across four width/depth configurations |
 | Core differential | 48,000 randomized cycles, seeds 192–195, four width/depth configurations |
 | Top pins | Four black-box suites pass |
 | Lint/structure | Verilator and Yosys pass |
