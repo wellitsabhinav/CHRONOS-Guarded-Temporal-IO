@@ -1,0 +1,7 @@
+CHRONOS — Guarded Temporal I/O Processor
+Copyright 2026 CHRONOS contributors.
+
+Bootstrapped from TinyTapeout/ttihp-verilog-template, cmos5l branch,
+revision b86a2a781484bcab7ba522dc5de540086695a430.
+The upstream Apache-2.0 license is preserved in LICENSE.
+Original template notices remain applicable to inherited material.

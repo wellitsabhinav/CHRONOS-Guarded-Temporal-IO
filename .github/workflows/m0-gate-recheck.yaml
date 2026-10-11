@@ -1,0 +1,60 @@
+name: M0 routed gate recheck
+on:
+  push:
+    branches: [development/m0-temporal-engine]
+    paths: [test/Makefile, scripts/pdk_functional.py, scripts/run_gates.py, .github/workflows/m0-gate-recheck.yaml]
+  workflow_dispatch:
+jobs:
+  routed-gates:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v7
+        with:
+          name: tt_submission
+          run-id: 38148339314
+          github-token: ${{ github.token }}
+          path: build/original-submission
+      - name: Require identical physical input files
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess
+          ref='98dff4f2b9f9350ab1fc403a924c0ff4fc0f884d'
+          for name in ['src/project.v','src/chronos_engine.v','src/chronos_loader.v','src/config.json','info.yaml']:
+              original=subprocess.check_output(['git','show',ref+':'+name]).decode().replace('\r\n','\n')
+              assert Path(name).read_text()==original, name
+          PY
+      - uses: actions/checkout@v6
+        with:
+          repository: TinyTapeout/tt-gds-action
+          ref: 3412659307918422f3f0727917cf9b499aaca588
+          path: .tools/gds-action
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install pinned official PDK and verification dependencies
+        env:
+          PDK_ROOT: /home/runner/pdk
+        run: |
+          bash .tools/gds-action/install_sg13cmos5l.sh
+          pip install -r test/requirements.txt
+          wget https://github.com/TinyTapeout/iverilog/releases/download/v13.0/iverilog_13.0-1_amd64.deb
+          sudo apt-get update -y
+          sudo apt-get install -y ./iverilog_13.0-1_amd64.deb
+      - name: Test the official routed artifact using the repaired gate Makefile
+        env:
+          PDK_ROOT: /home/runner/pdk
+        run: |
+          cp build/original-submission/tt_submission/*.v test/gate_level_netlist.v
+          cd test
+          GATES=yes make
+          test -f results.xml
+          ! grep failure results.xml
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: M0-routed-gate-recheck
+          path: test/results.xml

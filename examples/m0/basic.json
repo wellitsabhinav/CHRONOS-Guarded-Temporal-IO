@@ -1,0 +1,9 @@
+{
+  "cycles": 55,
+  "operations": [
+    {"at": 0, "timestamp": 20, "uo": "0x55"},
+    {"at": 1, "timestamp": 30, "uo": "0xaa", "uio_out": 1, "uio_oe": 1},
+    {"at": 2, "timestamp": 50, "uo": "0x0f", "uio_out": 2, "uio_oe": 3},
+    {"at": 3, "timestamp": 51, "uo": "0xf0", "uio_out": 4, "uio_oe": 7}
+  ]
+}

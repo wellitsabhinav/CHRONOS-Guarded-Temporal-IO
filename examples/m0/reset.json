@@ -1,0 +1,4 @@
+{"cycles": 20, "operations": [
+  {"at": 0, "timestamp": 10, "uo": 255}, {"at": 9, "reset": true},
+  {"at": 10, "timestamp": 1, "uo": 85, "uio_oe": 0}
+]}

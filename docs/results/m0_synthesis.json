@@ -1,0 +1,13 @@
+{
+  "scope": "standalone Yosys mapped-area checkpoint, no physical timing",
+  "yosys": "Yosys 0.30+48 (git sha1 b5b0b7e83, x86_64-w64-mingw32-g++ 13.1.0 -march=nocona -msahf -mtune=generic -O2 -Os)",
+  "pdk_revision_expected": "2bbec755dc67ca3db0261c3d6163e15735d66710",
+  "liberty_sha256": "34163f3e7de9f854afac57332ba06f1739b78e7ac35660a8a5ddd39c570124ad",
+  "cells": 2542,
+  "cell_area_um2": 58282.1568,
+  "source_sha256": {
+    "chronos_engine.v": "5769d61c448c7c4166e782501d1356b9d6b4b7c91088b25576ff723b0524ec8e",
+    "chronos_loader.v": "8fadedd4bcf984b9c29b2adc5271b3df0ae739070e184b7e9f23995066520304",
+    "project.v": "1b8bea1537b2b2a5e35948c84851e573a44d65e2db34bad0a7d00c95d7db3d35"
+  }
+}

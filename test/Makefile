@@ -2,11 +2,13 @@
 # See https://docs.cocotb.org/en/stable/quickstart.html for more info
 
 # defaults
+.DEFAULT_GOAL := sim
 SIM ?= icarus
 FST ?= -fst # Use more efficient FST format
 TOPLEVEL_LANG ?= verilog
 SRC_DIR = $(PWD)/../src
-PROJECT_SOURCES = project.v
+PROJECT_SOURCES = project.v chronos_engine.v chronos_loader.v
+export PYTHONPATH := $(abspath ..):$(PYTHONPATH)
 
 ifneq ($(GATES),yes)
 
@@ -21,8 +23,13 @@ SIM_BUILD				= sim_build/gl
 COMPILE_ARGS    += -DGL_TEST
 COMPILE_ARGS    += -DFUNCTIONAL
 COMPILE_ARGS    += -DSIM
+PDK_STDCELL = $(PDK_ROOT)/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/verilog
+FUNCTIONAL_CELLS = $(PWD)/sim_build/sg13cmos5l_functional.v
+$(FUNCTIONAL_CELLS): $(PDK_STDCELL)/sg13cmos5l_stdcell.v ../scripts/pdk_functional.py
+	python3 ../scripts/pdk_functional.py $< $@
+VERILOG_SOURCES += $(PDK_STDCELL)/sg13cmos5l_udp.v
 VERILOG_SOURCES += $(PDK_ROOT)/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/verilog/sg13cmos5l_io.v
-VERILOG_SOURCES += $(PDK_ROOT)/ihp-sg13cmos5l/libs.ref/sg13cmos5l_stdcell/verilog/sg13cmos5l_stdcell.v
+VERILOG_SOURCES += $(FUNCTIONAL_CELLS)
 
 # this gets copied in by the GDS action workflow
 VERILOG_SOURCES += $(PWD)/gate_level_netlist.v

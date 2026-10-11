@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "method": "bounded Yosys SAT",
+  "edges": 24,
+  "time_w": 4,
+  "depth": 3,
+  "gpio_w": 3,
+  "scope": "reset, due-only execution, immutable slots, output-change causes, FIFO retirement and order admission"
+}
