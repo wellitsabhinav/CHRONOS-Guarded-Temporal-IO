@@ -1,5 +1,21 @@
 {
   "recorded": "2026-10-11",
+  "classification": "CHRONOS_M0_PHYSICAL_VERIFIED",
+  "final_qualification": {
+    "qualified_head": "7166d8b6adbe2e87c87f78569074c52d69423f5a",
+    "gds_run": 38153731952,
+    "submission_artifact": 11708563974,
+    "submission_zip_sha256": "605e3e906f5466926d0e38adf187802549b2f0d646f1f1759aa7f871615421d8",
+    "precheck_job": 114521330545,
+    "precheck": "PASS",
+    "gate_job": 114521330559,
+    "gate_suites": 4,
+    "gate_failures": 0,
+    "gate_skips": 0,
+    "metrics_equal_recorded_signoff": true,
+    "netlist_equal_recorded_signoff": true,
+    "production_rtl_config_info_equal_artifact": true
+  },
   "physical_head": "98dff4f2b9f9350ab1fc403a924c0ff4fc0f884d",
   "gds_run": 38148339314,
   "submission_artifact": 11706624174,
@@ -44,5 +60,5 @@
     "timing__hold__ws__corner:nom_slow_1p08V_125C": 0.6271872088093091
   },
   "cell_utilization_percent": 9.303049477126429,
-  "note": "Latest-head automatic GDS run is pending; no M1 physical or silicon claim."
+  "note": "Physical qualification is established at qualified_head. Mandatory CI is required for the intended PR merge head after closure documentation and main-only viewer edits. No M1 physical or silicon claim."
 }
