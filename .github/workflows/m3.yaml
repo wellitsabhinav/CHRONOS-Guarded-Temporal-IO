@@ -1,0 +1,36 @@
+name: M3 external peer timing
+on:
+  push:
+    branches: [development/m3-ordinary-spi-peer-timing]
+  pull_request:
+    paths: [model/m3_*.py, model/tests/test_m3_*.py, test/m3_*.v, test/test_m3_*.py, scripts/m3_experiment.py, scripts/run_sim.py, .github/workflows/m3.yaml]
+  workflow_dispatch:
+jobs:
+  peer-timing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install bounded simulation dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          pip install -r test/requirements.txt
+      - name: Model and external peer qualification
+        run: |
+          python -m pytest model/tests -q
+          python scripts/m3_experiment.py
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: M3-peer-evidence
+          path: |
+            build/**/results.xml
+            build/**/m3_*.json
+            docs/results/m3_peer_timing.json
+            docs/results/m3_peer_samples.csv
