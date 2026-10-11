@@ -1,5 +1,9 @@
 # M0 temporal semantics
 
+M1 extends this contract through [guarded futures](m1_guarded_futures.md).
+Its experimental core uses the same pre-edge numbering, ordering, reset
+and rollover. The competition pad top still implements M0.
+
 Normative specification, 2026-10-11. Default parameters: `TIME_W=32`,
 `DEPTH=8`, `GPIO_W=24`. Legal depths are positive integers, including one
 and non-powers of two. All comparisons are unsigned.

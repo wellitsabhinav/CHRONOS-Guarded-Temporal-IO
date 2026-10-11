@@ -11,6 +11,18 @@ pass at qualified head `7166d8b`. Final artifact metrics and production
 source equality were inspected. PR closure requires mandatory CI at the
 intended merge head, including any subsequent documentation commit.
 
+**Experimental M1: `CHRONOS_M1_GUARDED_FUTURES_LOGIC_ESTABLISHED` (initial GO).**
+The independent model and companion core prepare two complete GPIO alternatives
+in one timestamp slot and select through registered generation-scoped predicate
+state. T-1 resolution commits at T; unresolved/late guards retire with no GPIO
+change and sticky GUARD_MISS. The competition pad top remains M0.
+[Initial evaluation](docs/results/m1_initial_evaluation.md) records the 30 model
+cases, 3600 random differential cycles, small bounded proof, late-resolution
+experiment and paired core synthesis: +893 cells, +27280.4112 µm², +332 flops.
+This supports provisional retention for M2, not a uniqueness or competitor
+performance claim. `make m1-test m1-formal m1-synth m1-experiment` reproduces it;
+mapping requires CHRONOS_LIBERTY.
+
 M0 contains a runnable independent model, a 32-bit timer, an ordered
 eight-entry event FIFO, a timestamp dispatcher, atomic 24-bit GPIO state,
 sticky faults, and a synchronous programmable loader. **M0 does not
@@ -149,16 +161,17 @@ database or waveform is committed.
 
 M0 temporal decoupling → M1 guarded futures → M2 programmable control core
 → M3 firmware UART/SPI/I²C → M4 physical qualification.
-The next architectural objective is **`CHRONOS_M1_GUARDED_FUTURES`**;
-same-timestamp alternatives and predicate commit margins require design
-review first. See [roadmap](docs/roadmap.md) and [decision records](docs/decisions/).
+The next architectural objective is **`CHRONOS_M2_PROGRAMMABLE_CORE`**;
+compact scheduling/resolution and safe predicate reclamation must support
+programmable protocol workloads. See [roadmap](docs/roadmap.md).
 
 Current limits: synchronous host only, 15 clocks per loaded event, FIFO
 ordered insertion, one dispatch per clock, no cross-rollover scheduling,
 and exact-timing measurement requires continuous selection/clock, normal
 output mode and no reset. Readback and deselection intentionally multiplex
-or mask pads. There is no CPU, guard/predicate machinery, UART/SPI/I²C,
-input capture, analog bus qualification or silicon evidence yet.
+or mask pads. The M1 guard/predicate machinery exists only in the experimental
+core; no CPU, UART/SPI/I²C, input capture, analog bus qualification or silicon
+evidence exists yet. Generation reuse is bounded within a reset epoch.
 
 ## License and development
 

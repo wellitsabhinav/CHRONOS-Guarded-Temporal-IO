@@ -3,7 +3,7 @@
 | Milestone | Qualification label | Gate |
 | --- | --- | --- |
 | M0 temporal decoupling | CHRONOS_M0_TEMPORAL_DECOUPLING_CONFIRMED | Model, ordered FIFO/dispatcher, loadable top, faults/reset, differential evidence and physical checkpoint |
-| M1 guarded futures | CHRONOS_M1_GUARDED_FUTURES_CONFIRMED | Predicates, guarded actions, false-event retirement, deterministic late resolution, no wrong-path external action |
+| M1 guarded futures | CHRONOS_M1_GUARDED_FUTURES_LOGIC_ESTABLISHED | Alternative bundles, registered predicates/generations, deterministic misses, small differential/proof/synthesis evidence and late-decision experiment |
 | M2 programmable core | CHRONOS_M2_PROGRAMMABLE_CORE | Minimal processor, compact ISA, assembler, program storage, scheduling instructions and loader |
 | M3 protocol set | CHRONOS_M3_PROTOCOL_SET_COMPLETE | Firmware UART, SPI and I2C on the same programmable architecture |
 | M4 physical qualification | CHRONOS_M4_PHYSICAL_QUALIFIED | 6x4 GDS, timing, precheck, DRC, LVS as supplied, routed gate tests and submission-quality documentation |
@@ -14,12 +14,13 @@ with unavailable physical hardening is
 is `CHRONOS_M0_INCOMPLETE`. Tool blockages are named explicitly rather than
 converted into success. Full formal induction remains future qualification.
 
-## Next exact objective: CHRONOS_M1_GUARDED_FUTURES
+## M1 decision: GO at the initial logic gate
 
-Investigate `A@T if P0=0` versus `B@T if P0=1`. Define the resolution margin,
-GUARD_MISS behavior, false retirement, same-time alternatives and output
-commit rule **before** RTL. A small predicate table could contain resolved
-and value bits, but no implementation is committed by M0.
+**CURRENT IMPLEMENTATION:** one atomic alternative bundle, four predicates,
+registered T-1 resolution, write-once generations, fail-closed GUARD_MISS.
+See [initial evaluation](results/m1_initial_evaluation.md). The mechanism
+survives the targeted tests, reduced bounded proof and paired synthesis.
+Retain it provisionally and stop expanding the benchmark campaign.
 
 | Alternative | Benefit | Cost/question |
 | --- | --- | --- |
@@ -28,8 +29,10 @@ and value bits, but no implementation is committed by M0.
 | One-predicate conditional event | Small bounded selector | Restricts nesting/composition |
 | Compiler merging | Smaller hardware representation | Must prove merged waveforms and margins equivalent |
 
-Compare these against vendor timed/conditional ports and literature.
-Require predicate resolution before a specified commit margin; do not
-retime a late choice. Avoid queue-wide CAM/cancellation unless measurements
-show it is necessary. CPU/ISA decisions follow M1, not this M0 run.
-Stretch protocols and acceleration follow a healthy M4 only.
+The alternatives table records design choices, not additional implementations.
+**UNPROVEN CLAIM:** superiority to optimized PIO/PRU/XMOS/Loom implementations
+or novelty across all prior art. **PLANNED WORK / next exact milestone:**
+`CHRONOS_M2_PROGRAMMABLE_CORE`, with a compact producer/resolver API and safe
+predicate reclamation. UART/SPI/I2C firmware belongs to M3. Do not freeze
+an ISA or build protocol engines during M1. Expanded physical qualification
+follows programmable integration, with the 6x4/50 MHz budget retained.

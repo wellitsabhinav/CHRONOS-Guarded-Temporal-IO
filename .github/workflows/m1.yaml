@@ -1,0 +1,37 @@
+name: M1 initial viability
+on:
+  push:
+    branches: [development/m1-guarded-futures]
+  pull_request:
+    paths: [src/chronos_guarded_engine.v, model/guarded_engine.py, model/tests/test_guarded.py, test/test_guarded.py, scripts/m1_*.py, formal/guarded_top.v, .github/workflows/m1.yaml]
+  workflow_dispatch:
+jobs:
+  viability:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install small verification toolset
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog verilator yosys
+          pip install -r test/requirements.txt
+      - name: Model, differential, bounded safety and experiment
+        run: |
+          python -m pytest model/tests/test_guarded.py -q
+          python scripts/run_sim.py guarded
+          python scripts/m1_formal.py
+          python scripts/m1_experiment.py
+          verilator --lint-only --Wall --top-module chronos_guarded_engine src/chronos_guarded_engine.v
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: M1-initial-viability
+          path: |
+            build/chronos_guarded_engine/**/results.xml
+            build/chronos_guarded_engine/**/guarded_differential.json
+            build/chronos_guarded_engine/**/late_resolution.json
+            build/m1-formal/summary.json
+            build/m1-experiment/summary.json

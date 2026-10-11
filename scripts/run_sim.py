@@ -23,7 +23,8 @@ def run(top, module, parameters=None):
     for key, value in (parameters or {}).items():
         command += [f"-P{top}.{key}={value}"]
     command += [str(path) for path in sorted((ROOT / "src").glob("*.v"))]
-    command += [str(ROOT / "test" / f"{'tb' if top == 'tb' else 'engine_tb'}.v")]
+    if top != "chronos_guarded_engine":
+        command += [str(ROOT / "test" / f"{'tb' if top == 'tb' else 'engine_tb'}.v")]
     subprocess.run(command, check=True, cwd=ROOT)
     env = os.environ.copy()
     env.update(PYTHONPATH=os.pathsep.join([str(ROOT), str(ROOT / "test"), env.get("PYTHONPATH", "")]),
@@ -44,13 +45,17 @@ def run(top, module, parameters=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("suite", choices=["core", "top", "all"], default="all", nargs="?")
+    parser.add_argument("suite", choices=["core", "top", "all", "guarded"], default="all", nargs="?")
     args = parser.parse_args()
     if args.suite in ("core", "all"):
         for width, depth in [(32, 8), (8, 1), (8, 3), (4, 8)]:
             run("engine_tb", "test_engine", {"TIME_W": width, "DEPTH": depth})
     if args.suite in ("top", "all"):
         run("tb", "test")
+    if args.suite == "guarded":
+        for depth in [1, 3]:
+            run("chronos_guarded_engine", "test_guarded", {"TIME_W": 8, "DEPTH": depth,
+                                                           "PRED_W": 1, "GEN_W": 2})
 
 
 if __name__ == "__main__":

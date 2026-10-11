@@ -1,0 +1,219 @@
+{
+  "deadline": 100,
+  "baseline": "observation R, branch R+1, M0 enqueue R+2; derived, not a CPU benchmark",
+  "guarded_margin_cycles": 1,
+  "reactive_margin_cycles": 3,
+  "saved_cycles": 2,
+  "assumed_clock_mhz": 50,
+  "saved_ns": 40,
+  "rows": [
+    {
+      "margin": 20,
+      "value": 0,
+      "guarded_trace": [
+        [
+          100,
+          85
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [
+        [
+          100,
+          85
+        ]
+      ],
+      "reactive_faults": 0
+    },
+    {
+      "margin": 20,
+      "value": 1,
+      "guarded_trace": [
+        [
+          100,
+          170
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [
+        [
+          100,
+          170
+        ]
+      ],
+      "reactive_faults": 0
+    },
+    {
+      "margin": 10,
+      "value": 0,
+      "guarded_trace": [
+        [
+          100,
+          85
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [
+        [
+          100,
+          85
+        ]
+      ],
+      "reactive_faults": 0
+    },
+    {
+      "margin": 10,
+      "value": 1,
+      "guarded_trace": [
+        [
+          100,
+          170
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [
+        [
+          100,
+          170
+        ]
+      ],
+      "reactive_faults": 0
+    },
+    {
+      "margin": 5,
+      "value": 0,
+      "guarded_trace": [
+        [
+          100,
+          85
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [
+        [
+          100,
+          85
+        ]
+      ],
+      "reactive_faults": 0
+    },
+    {
+      "margin": 5,
+      "value": 1,
+      "guarded_trace": [
+        [
+          100,
+          170
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [
+        [
+          100,
+          170
+        ]
+      ],
+      "reactive_faults": 0
+    },
+    {
+      "margin": 2,
+      "value": 0,
+      "guarded_trace": [
+        [
+          100,
+          85
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [],
+      "reactive_faults": 4
+    },
+    {
+      "margin": 2,
+      "value": 1,
+      "guarded_trace": [
+        [
+          100,
+          170
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [],
+      "reactive_faults": 4
+    },
+    {
+      "margin": 1,
+      "value": 0,
+      "guarded_trace": [
+        [
+          100,
+          85
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [],
+      "reactive_faults": 4
+    },
+    {
+      "margin": 1,
+      "value": 1,
+      "guarded_trace": [
+        [
+          100,
+          170
+        ]
+      ],
+      "guarded_faults": 0,
+      "reactive_trace": [],
+      "reactive_faults": 4
+    },
+    {
+      "margin": 0,
+      "value": 0,
+      "guarded_trace": [],
+      "guarded_faults": 8,
+      "reactive_trace": [],
+      "reactive_faults": 4
+    },
+    {
+      "margin": 0,
+      "value": 1,
+      "guarded_trace": [],
+      "guarded_faults": 8,
+      "reactive_trace": [],
+      "reactive_faults": 4
+    },
+    {
+      "margin": -1,
+      "value": 0,
+      "guarded_trace": [],
+      "guarded_faults": 8,
+      "reactive_trace": [],
+      "reactive_faults": 4
+    },
+    {
+      "margin": -1,
+      "value": 1,
+      "guarded_trace": [],
+      "guarded_faults": 8,
+      "reactive_trace": [],
+      "reactive_faults": 4
+    },
+    {
+      "margin": null,
+      "value": 0,
+      "guarded_trace": [],
+      "guarded_faults": 8,
+      "reactive_trace": [],
+      "reactive_faults": 0
+    },
+    {
+      "margin": null,
+      "value": 1,
+      "guarded_trace": [],
+      "guarded_faults": 8,
+      "reactive_trace": [],
+      "reactive_faults": 0
+    }
+  ]
+}

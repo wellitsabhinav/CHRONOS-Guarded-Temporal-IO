@@ -1,0 +1,52 @@
+[
+  {
+    "time_w": 8,
+    "depth": 1,
+    "pred_w": 1,
+    "gen_w": 2,
+    "seeds": [
+      {
+        "seed": 1101,
+        "cycles": 600
+      },
+      {
+        "seed": 1102,
+        "cycles": 600
+      },
+      {
+        "seed": 1103,
+        "cycles": 600
+      }
+    ],
+    "cycles": 1800,
+    "guard_executes": 21,
+    "guard_misses": 115,
+    "ordinary_executes": 47,
+    "predicate_accepts": 378
+  },
+  {
+    "time_w": 8,
+    "depth": 3,
+    "pred_w": 1,
+    "gen_w": 2,
+    "seeds": [
+      {
+        "seed": 1101,
+        "cycles": 600
+      },
+      {
+        "seed": 1102,
+        "cycles": 600
+      },
+      {
+        "seed": 1103,
+        "cycles": 600
+      }
+    ],
+    "cycles": 1800,
+    "guard_executes": 22,
+    "guard_misses": 104,
+    "ordinary_executes": 56,
+    "predicate_accepts": 352
+  }
+]
