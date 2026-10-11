@@ -1,0 +1,6 @@
+[
+  {"cycle": 20, "uo": 85, "uio_out": 0, "uio_oe": 0},
+  {"cycle": 30, "uo": 170, "uio_out": 1, "uio_oe": 1},
+  {"cycle": 50, "uo": 15, "uio_out": 2, "uio_oe": 3},
+  {"cycle": 51, "uo": 240, "uio_out": 4, "uio_oe": 7}
+]

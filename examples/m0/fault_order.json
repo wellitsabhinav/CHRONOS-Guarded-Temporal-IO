@@ -1,0 +1,5 @@
+{"cycles": 25, "operations": [
+  {"at": 0, "timestamp": 20, "uo": 85},
+  {"at": 1, "timestamp": 19, "uo": 255},
+  {"at": 2, "timestamp": 2, "uo": 255}
+]}
