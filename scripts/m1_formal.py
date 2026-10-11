@@ -15,7 +15,8 @@ for p in sources:
     "read_verilog -formal chronos_guarded_engine.v guarded_top.v",
     "prep -top guarded_formal_top -flatten", "memory_map", "opt", "dffunmap",
     "setundef -undriven -anyseq", "check -assert",
-    "sat -seq 20 -prove-asserts -set-assumes -verify",+])+"\n")
+    "sat -seq 20 -prove-asserts -set-assumes -verify",
+])+"\n")
 subprocess.run([os.environ.get("YOSYS","yosys"),"-l","formal.log","-s","prove.ys"],
                check=True,cwd=build,stdout=subprocess.DEVNULL)
 summary=dict(status="PASS", method="bounded Yosys SAT",edges=20,
