@@ -10,6 +10,6 @@
   "scope": "wrong-path, mutual exclusion, exact time, miss/no-retiming, generations, reset, FIFO bounds/order/immutability",
   "source_sha256": {
     "src/chronos_guarded_engine.v": "f08eae77832c3ebf083e541fb5b51f67f86ac8354a9063fa949a916c121ee204",
-    "formal\\guarded_top.v": "35264b65c95f12973e3b193ba4bb2ba773f486b12caaf32028299e90bba5ddc4"
+    "formal/guarded_top.v": "35264b65c95f12973e3b193ba4bb2ba773f486b12caaf32028299e90bba5ddc4"
   }
 }

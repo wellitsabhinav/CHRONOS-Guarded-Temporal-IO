@@ -1,4 +1,5 @@
 PYTHON ?= python3
+.DEFAULT_GOAL := test
 
 .PHONY: test model-test rtl-test diff-test lint synth formal harden
 .PHONY: m1-test m1-formal m1-synth m1-experiment

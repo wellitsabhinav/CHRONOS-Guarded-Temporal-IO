@@ -22,6 +22,6 @@ subprocess.run([os.environ.get("YOSYS","yosys"),"-l","formal.log","-s","prove.ys
 summary=dict(status="PASS", method="bounded Yosys SAT",edges=20,
              time_w=4,depth=3,gpio_w=2,pred_w=1,gen_w=2,
              scope="wrong-path, mutual exclusion, exact time, miss/no-retiming, generations, reset, FIFO bounds/order/immutability",
-             source_sha256={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sources})
+             source_sha256={p.relative_to(ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in sources})
 (build / "summary.json").write_text(json.dumps(summary,indent=2)+"\n")
 print(json.dumps(summary))
