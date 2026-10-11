@@ -17,7 +17,7 @@ def slice_program(deadline=30, sample=29, direct=False):
 def test_first_slice_and_direct_tie():
     for direct in (False, True):
         for value in (0, 1):
-            c = ProgrammableCore()
+            c = ProgrammableCore(guards=True)
             origin = load(c, slice_program(direct=direct))
             trace = []
             for _ in range(35):
@@ -31,7 +31,7 @@ def test_first_slice_and_direct_tie():
 
 def test_reuse_512_no_reset():
     for gen_w in (2, 8):
-        c = ProgrammableCore(gen_w=gen_w)
+        c = ProgrammableCore(gen_w=gen_w, guards=True)
         load(c, slice_program(12, 11))
         for iteration in range(512):
             while not c.ready:

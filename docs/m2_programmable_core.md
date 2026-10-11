@@ -3,6 +3,9 @@
 Specification 2026-10-11. M2 is a falsification experiment, not a general CPU
 or physical qualification. M0 pre-edge time, unsigned ordering, single-head
 retirement, atomic GPIO and reset-epoch semantics apply. M1 remains intact.
+The measured utility gate is NO-GO for guards: `GUARDS_ENABLED=0` is the
+supported core/wrapper/model default. Set it to 1 only to reproduce the guarded
+experiment; opcode 3 faults when disabled. Both ordinary reactive paths remain.
 
 ## State and ownership
 

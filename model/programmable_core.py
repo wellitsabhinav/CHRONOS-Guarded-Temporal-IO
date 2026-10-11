@@ -111,7 +111,7 @@ class ReclaimingEngine:
 
 
 class ProgrammableCore:
-    def __init__(self, depth=8, time_w=32, pred_w=2, gen_w=8, guards=True):
+    def __init__(self, depth=8, time_w=32, pred_w=2, gen_w=8, guards=False):
         self.engine = ReclaimingEngine(depth, time_w, pred_w, gen_w, guards)
         self.program = [0]*16
         self.reset()

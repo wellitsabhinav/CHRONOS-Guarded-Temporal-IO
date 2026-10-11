@@ -1,0 +1,1336 @@
+{
+  "status": "PASS",
+  "classification": "CHRONOS_M2_GUARDS_NO_GO_ORDINARY_DEFAULT",
+  "scope": "RTL/model every edge; no physical timing",
+  "cases": 192,
+  "uart": {
+    "byte": 166,
+    "divisor": 4,
+    "trace": [
+      [
+        10,
+        1
+      ],
+      [
+        20,
+        0
+      ],
+      [
+        24,
+        0
+      ],
+      [
+        28,
+        1
+      ],
+      [
+        32,
+        1
+      ],
+      [
+        36,
+        0
+      ],
+      [
+        40,
+        0
+      ],
+      [
+        44,
+        1
+      ],
+      [
+        48,
+        0
+      ],
+      [
+        52,
+        1
+      ],
+      [
+        56,
+        1
+      ]
+    ],
+    "passed": true
+  },
+  "groups": [
+    {
+      "workload": "adversarial",
+      "spacing": 2,
+      "path": "guarded",
+      "cases": 16,
+      "minimum_sample_margin": 1,
+      "minimum_raw_pin_margin": 3,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "adversarial",
+        "path": "guarded",
+        "spacing": 2,
+        "margin": 1,
+        "value": 1,
+        "sample": 39,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            15781034
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            15781034
+          ]
+        ],
+        "sample_edges": [
+          39
+        ],
+        "instructions": 7,
+        "accepted": 1,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 0,
+        "max_occupancy": 1,
+        "final_faults": 0,
+        "issue_edges": [
+          5
+        ]
+      }
+    },
+    {
+      "workload": "adversarial",
+      "spacing": 2,
+      "path": "reactive",
+      "cases": 16,
+      "minimum_sample_margin": 2,
+      "minimum_raw_pin_margin": 4,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "adversarial",
+        "path": "reactive",
+        "spacing": 2,
+        "margin": 2,
+        "value": 1,
+        "sample": 38,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            15781034
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            15781034
+          ]
+        ],
+        "sample_edges": [
+          38
+        ],
+        "instructions": 7,
+        "accepted": 1,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 33,
+        "max_occupancy": 1,
+        "final_faults": 0,
+        "issue_edges": [
+          39
+        ]
+      }
+    },
+    {
+      "workload": "adversarial",
+      "spacing": 2,
+      "path": "direct",
+      "cases": 16,
+      "minimum_sample_margin": 1,
+      "minimum_raw_pin_margin": 3,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "adversarial",
+        "path": "direct",
+        "spacing": 2,
+        "margin": 1,
+        "value": 1,
+        "sample": 39,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            15781034
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            15781034
+          ]
+        ],
+        "sample_edges": [
+          39
+        ],
+        "instructions": 7,
+        "accepted": 1,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 0,
+        "max_occupancy": 1,
+        "final_faults": 0,
+        "issue_edges": [
+          39
+        ]
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 2,
+      "path": "guarded",
+      "cases": 16,
+      "minimum_sample_margin": 1,
+      "minimum_raw_pin_margin": 3,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "guarded",
+        "spacing": 2,
+        "margin": 1,
+        "value": 1,
+        "sample": 39,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            42,
+            65536
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            46,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            42,
+            65536
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            46,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          39
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 0,
+        "max_occupancy": 4,
+        "final_faults": 0,
+        "issue_edges": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "peer_response": 9
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 2,
+      "path": "reactive",
+      "cases": 16,
+      "minimum_sample_margin": 2,
+      "minimum_raw_pin_margin": 4,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "reactive",
+        "spacing": 2,
+        "margin": 2,
+        "value": 1,
+        "sample": 38,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            42,
+            65536
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            46,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            42,
+            65536
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            46,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          38
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 33,
+        "max_occupancy": 2,
+        "final_faults": 0,
+        "issue_edges": [
+          39,
+          40,
+          41,
+          42
+        ],
+        "peer_response": 9
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 2,
+      "path": "direct",
+      "cases": 16,
+      "minimum_sample_margin": 1,
+      "minimum_raw_pin_margin": 3,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "direct",
+        "spacing": 2,
+        "margin": 1,
+        "value": 1,
+        "sample": 39,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            42,
+            65536
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            46,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            42,
+            65536
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            46,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          39
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 33,
+        "max_occupancy": 2,
+        "final_faults": 0,
+        "issue_edges": [
+          39,
+          40,
+          41,
+          42
+        ],
+        "peer_response": 9
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 4,
+      "path": "guarded",
+      "cases": 16,
+      "minimum_sample_margin": 1,
+      "minimum_raw_pin_margin": 3,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "guarded",
+        "spacing": 4,
+        "margin": 1,
+        "value": 1,
+        "sample": 39,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            52,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            52,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          39
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 0,
+        "max_occupancy": 4,
+        "final_faults": 0,
+        "issue_edges": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "peer_response": 9
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 4,
+      "path": "reactive",
+      "cases": 16,
+      "minimum_sample_margin": 2,
+      "minimum_raw_pin_margin": 4,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "reactive",
+        "spacing": 4,
+        "margin": 2,
+        "value": 1,
+        "sample": 38,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            52,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            52,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          38
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 33,
+        "max_occupancy": 3,
+        "final_faults": 0,
+        "issue_edges": [
+          39,
+          40,
+          41,
+          42
+        ],
+        "peer_response": 9
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 4,
+      "path": "direct",
+      "cases": 16,
+      "minimum_sample_margin": 1,
+      "minimum_raw_pin_margin": 3,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "direct",
+        "spacing": 4,
+        "margin": 1,
+        "value": 1,
+        "sample": 39,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            52,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            44,
+            65536
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            52,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          39
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 33,
+        "max_occupancy": 3,
+        "final_faults": 0,
+        "issue_edges": [
+          39,
+          40,
+          41,
+          42
+        ],
+        "peer_response": 9
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 8,
+      "path": "guarded",
+      "cases": 16,
+      "minimum_sample_margin": 1,
+      "minimum_raw_pin_margin": 3,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "guarded",
+        "spacing": 8,
+        "margin": 1,
+        "value": 1,
+        "sample": 39,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            56,
+            65536
+          ],
+          [
+            64,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            56,
+            65536
+          ],
+          [
+            64,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          39
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 0,
+        "max_occupancy": 4,
+        "final_faults": 0,
+        "issue_edges": [
+          5,
+          6,
+          7,
+          8
+        ],
+        "peer_response": 9
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 8,
+      "path": "reactive",
+      "cases": 16,
+      "minimum_sample_margin": 2,
+      "minimum_raw_pin_margin": 4,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "reactive",
+        "spacing": 8,
+        "margin": 2,
+        "value": 1,
+        "sample": 38,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            56,
+            65536
+          ],
+          [
+            64,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            56,
+            65536
+          ],
+          [
+            64,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          38
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 33,
+        "max_occupancy": 3,
+        "final_faults": 0,
+        "issue_edges": [
+          39,
+          40,
+          41,
+          42
+        ],
+        "peer_response": 9
+      }
+    },
+    {
+      "workload": "spi",
+      "spacing": 8,
+      "path": "direct",
+      "cases": 16,
+      "minimum_sample_margin": 1,
+      "minimum_raw_pin_margin": 3,
+      "outcomes": [
+        {
+          "margin": 10,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 5,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 3,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 2,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 1,
+          "successes": 2,
+          "cases": 2
+        },
+        {
+          "margin": 0,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": -1,
+          "successes": 0,
+          "cases": 2
+        },
+        {
+          "margin": null,
+          "successes": 0,
+          "cases": 2
+        }
+      ],
+      "closest_success": {
+        "workload": "spi",
+        "path": "direct",
+        "spacing": 8,
+        "margin": 1,
+        "value": 1,
+        "sample": 39,
+        "success": true,
+        "wrong_path": false,
+        "trace": [
+          [
+            40,
+            65792
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            56,
+            65536
+          ],
+          [
+            64,
+            65792
+          ]
+        ],
+        "expected": [
+          [
+            40,
+            65792
+          ],
+          [
+            48,
+            65536
+          ],
+          [
+            56,
+            65536
+          ],
+          [
+            64,
+            65792
+          ]
+        ],
+        "sample_edges": [
+          39
+        ],
+        "instructions": 10,
+        "accepted": 4,
+        "predicates": 2,
+        "guard_misses": 0,
+        "stalls": 33,
+        "max_occupancy": 3,
+        "final_faults": 0,
+        "issue_edges": [
+          39,
+          40,
+          41,
+          42
+        ],
+        "peer_response": 9
+      }
+    }
+  ],
+  "frontend_delay_clocks": 2,
+  "guard_and_direct_full_response_outcomes_identical": true,
+  "wrong_path": 0,
+  "replay_check": "simulation continues to origin+72; commits must match an originally scheduled timestamp and state",
+  "limitation": "SPI-like external stimulus at programmed edges; not a full asynchronous SPI slave or physical timing"
+}

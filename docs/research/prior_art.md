@@ -70,3 +70,14 @@ mechanism, optimal area, or measured superiority to any named architecture.
 The limited search supports retaining M1 for M2 integration, not marketing
 those claims. Reassess if programmable integration consumes disproportionate
 area or if actual UART/SPI/I2C control paths gain no useful slack.
+
+## M2 utility result (2026-10-11)
+
+The implemented programmable fused ordinary sampler matches guard margin,
+four-bit SPI-like response success and drained restart throughput. The earlier
+M1 conceptual branch/enqueue baseline does not establish a retained practical
+advantage. M2 therefore defaults to ordinary operation and records NO-GO for
+guards. This falsifies the measured utility hypothesis for the tested workload;
+it does not establish that every conceivable guarded workload lacks value or
+that any named prior architecture is equivalent. See the
+[M2 A–N report](../results/m2_initial_evaluation.md).

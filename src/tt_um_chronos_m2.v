@@ -46,7 +46,7 @@ module tt_um_chronos_m2 #(
         else if(ena) case(command)
             1: begin
                 stage<={ui_in[3:0],stage[31:4]};
-                if(nibble_count<8) nibble_count<=nibble_count+1'b1;
+                if(nibble_count<9) nibble_count<=nibble_count+1'b1;
             end
             2: begin
                 nibble_count<=0;

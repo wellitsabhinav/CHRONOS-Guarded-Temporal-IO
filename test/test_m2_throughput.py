@@ -4,6 +4,7 @@ from pathlib import Path
 import cocotb
 from test_programmable import Harness
 from model.programmable_core import encode
+from model.m2_workloads import reactive
 
 
 @cocotb.test()
@@ -42,4 +43,36 @@ async def measured_restart_throughput(dut):
     assert results[0]['full_pop_refill'] and results[1]['full_pop_refill']
     Path('m2_throughput.json').write_text(json.dumps(dict(time_w=h.time_w,depth=h.depth,
         scope='32 drained restarts; excludes initial loading, includes every START and drain edge',
+        rows=results),indent=2)+'\n')
+
+
+@cocotb.test()
+async def measured_spi_restarts(dut):
+    h=Harness(dut)
+    results=[]
+    for path in ('guarded','direct','reactive'):
+        margin=2 if path=='reactive' else 1
+        words,input_at,expected=reactive(path,sample=40-margin,spacing=2,spi=True)
+        await h.cycle(reset=True)
+        first_origin=origin=await h.load(words)
+        rows=[]
+        for repetition in range(32):
+            if repetition:
+                rows.append(await h.cycle(start=True))
+                origin=h.m.origin
+            transaction=[]
+            while not h.m.ready:
+                transaction.append(await h.cycle(input_at(h.m.engine.time-origin,repetition&1)))
+            rows+=transaction
+            trace=[(r['time']-origin,r['gpio']) for r in transaction if r['executed']]
+            assert trace==expected(repetition&1) and not h.m.faults
+        cycles=rows[-1]['time']-first_origin+1
+        results.append(dict(path=path,margin=margin,restarts=32,cycles=cycles,
+            successful_responses=32,events=sum(r['executed'] for r in rows),
+            instructions=sum(r['retired'] for r in rows),stalls=sum(r['stalled'] for r in rows),
+            max_occupancy=max(r['occupancy'] for r in rows),
+            transactions_per_cycle=32/cycles,events_per_cycle=128/cycles,wrong_path=0,faults=0))
+    assert results[0]['cycles']==results[1]['cycles']
+    Path('m2_protocol_throughput.json').write_text(json.dumps(dict(
+        scope='32 SPI-like drained restarts per path, alternating values; excludes initial loading',
         rows=results),indent=2)+'\n')

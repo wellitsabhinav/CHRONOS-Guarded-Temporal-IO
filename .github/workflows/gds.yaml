@@ -2,6 +2,7 @@ name: gds
 
 on:
   push:
+    branches-ignore: [development/m2-programmable-core]
   workflow_dispatch:
 
 jobs:

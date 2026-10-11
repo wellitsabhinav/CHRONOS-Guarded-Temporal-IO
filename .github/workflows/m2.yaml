@@ -1,0 +1,41 @@
+name: M2 programmability and falsification
+on:
+  push:
+    branches: [development/m2-programmable-core]
+  pull_request:
+    paths: [src/chronos_programmable_core.v, src/chronos_reclaiming_engine.v, src/tt_um_chronos_m2.v, model/programmable_core.py, model/m2_workloads.py, model/tests/test_programmable.py, test/test_programmable.py, test/test_m2_*.py, scripts/m2_*.py, formal/reclaim_top.v, formal/programmable_top.v, .github/workflows/m2.yaml]
+  workflow_dispatch:
+jobs:
+  falsification:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install focused verification tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog verilator yosys
+          pip install -r test/requirements.txt
+      - name: Model and every-edge differential tests
+        run: |
+          python -m pytest model/tests/test_programmable.py -q
+          python scripts/m2_verify.py
+          python scripts/m2_experiment.py
+      - name: Reduced bounded safety and default configuration lint
+        run: |
+          python scripts/m2_formal.py
+          verilator --lint-only --Wall --top-module chronos_programmable_core src/chronos_reclaiming_engine.v src/chronos_programmable_core.v
+          verilator --lint-only --Wall -GGUARDS_ENABLED=1 --top-module chronos_programmable_core src/chronos_reclaiming_engine.v src/chronos_programmable_core.v
+          verilator --lint-only --Wall --top-module tt_um_chronos_m2 src/chronos_reclaiming_engine.v src/chronos_programmable_core.v src/tt_um_chronos_m2.v
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: M2-logic-evidence
+          path: |
+            build/**/results.xml
+            build/**/*_results.xml
+            build/**/m2_*.json
+            build/m2-formal/summary.json

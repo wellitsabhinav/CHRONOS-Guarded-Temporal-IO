@@ -2,6 +2,7 @@
 import cocotb
 from cocotb.triggers import Timer
 from model.m2_workloads import reactive,uart
+from model.programmable_core import encode
 
 
 class Host:
@@ -49,6 +50,19 @@ async def loadable_default_and_snapshot(dut):
     assert await h.cycle()==0xf0ccaa
     await h.cycle(2)  # incomplete write
     assert (await h.cycle(4,read=True))&128
+    await h.cycle(reset=True)
+    for _ in range(9): await h.cycle(1,0)
+    await h.cycle(2)
+    assert (await h.cycle(4,read=True))&128  # overlong word rejected
+    await h.cycle(7)
+    await h.cycle()  # rejected write left slot zero unwritten
+    await h.cycle(4,read=True)
+    assert (await h.cycle(5,read=True))&32
+    await h.cycle(reset=True)
+    await h.load([encode(4),encode(5,30),encode(0)])
+    for _ in range(8): await h.cycle(1,0)
+    await h.cycle(2)  # halted but sampler still busy: write must reject
+    assert (await h.cycle(4,read=True))&0x88==0x88
     await h.cycle(reset=True)
     words,expected=uart()
     origin=await h.load(words)

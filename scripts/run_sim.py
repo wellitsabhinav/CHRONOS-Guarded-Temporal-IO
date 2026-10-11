@@ -40,6 +40,8 @@ def run(top, module, parameters=None):
     cases = report.findall(".//testcase")
     if not cases or report.findall(".//failure") or report.findall(".//error"):
         raise SystemExit("cocotb tests failed; inspect build results.xml")
+    if module.startswith(("test_m2", "test_programmable")):
+        (build / f"{module}_results.xml").write_bytes((build / "results.xml").read_bytes())
     print(f"PASS: {top} {parameters or {}} ({len(cases)} cocotb tests)")
 
 
