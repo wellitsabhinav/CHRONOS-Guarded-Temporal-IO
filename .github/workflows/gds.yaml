@@ -38,6 +38,8 @@ jobs:
         uses: TinyTapeout/tt-gds-action/gl_test@ihp-cmos5l
 
   viewer:
+    # Pages deployment is restricted to main; hardware qualification runs on every push.
+    if: github.ref == 'refs/heads/main'
     needs: gds
     runs-on: ubuntu-24.04
     permissions:
