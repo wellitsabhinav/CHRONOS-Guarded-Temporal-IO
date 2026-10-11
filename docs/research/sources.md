@@ -21,8 +21,10 @@ documents or third-party code beyond the official template are committed.
 * Timer cookbook: https://www.st.com.cn/resource/en/application_note/an4776-how-to-use-generalpurpose-timer-peripheral-on-stm32-mcus-stmicroelectronics.pdf
 * Public entry: https://github.com/satyaammu93/jane-street-asic-2026
 * Public entry: https://github.com/Abagel-coder/protocol-emulator
+* Public entry: https://github.com/thomasgilbert481/tt_um_loom
 * Public entry: https://github.com/sjrai007/gp_pae/blob/main/ARCHITECTURE.md
 * Public entry: https://github.com/2AMLogic/sg13cmos5l-protocol-emulator
+* Public entry: https://github.com/smprather/janestreet-blog-serial-protocol-emulator
 
 Primary-source searches were performed before CHRONOS implementation.
 Vendor/academic facts are summarized, not reproduced as large excerpts.

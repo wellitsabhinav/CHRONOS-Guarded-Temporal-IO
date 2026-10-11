@@ -4,7 +4,8 @@
 
 Timed GPIO, buffered output, deterministic I/O, deadline execution,
 output compare, and explicit time in programming models are established.
-XMOS timed buffered ports are especially close to M0. See [survey](prior_art.md).
+XMOS timed buffered ports and Loom's deadline-latched pin writes are
+especially close to M0. See [survey](prior_art.md).
 
 ## Current facts
 

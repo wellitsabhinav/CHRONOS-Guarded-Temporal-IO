@@ -22,8 +22,10 @@ repository claims below have not been independently reproduced.
 
 * [Tempo](https://github.com/satyaammu93/jane-street-asic-2026/tree/main/protocol_emulator): two programmable engines, pin/timestamp capture, bounded waits and firmware protocols. Its published reports claim CMOS5L qualification. Timing capture and event coordination overlap the broader design space.
 * [Abagel-coder/protocol-emulator](https://github.com/Abagel-coder/protocol-emulator): time-triggered programmable core with WAIT/DELAY/deadline direction; a different implementation of temporal protocol execution is already public.
-* [sjrai007/gp_pae architecture](https://github.com/sjrai007/gp_pae/blob/main/ARCHITECTURE.md): programmable protocol architecture reviewed for scheduling and execution organization. Treat design descriptions separately from verified implementation results.
+* [Loom](https://github.com/thomasgilbert481/tt_um_loom): four barrel threads with per-thread deadlines and deadline-latched pin writes that land on a requested clock independently of the thread's instruction slot. This is close competition prior art for M0. Its current README claims an 8×4 implementation; that project's allocation does not change CHRONOS's 6×4 constraint from the official rules. Its verification and physical results have not been independently reproduced here.
+* [sjrai007/gp_pae architecture](https://github.com/sjrai007/gp_pae/blob/main/ARCHITECTURE.md): independent programmable sequencer lanes and Hardcaml parameter exploration. Treat design descriptions separately from verified implementation results.
 * [2AMLogic/sg13cmos5l-protocol-emulator](https://github.com/2AMLogic/sg13cmos5l-protocol-emulator): public specification-stage timing-oriented programmable processor direction.
+* [smprather/serial-protocol-emulator](https://github.com/smprather/janestreet-blog-serial-protocol-emulator): programmable control, tick engine and pin matrix, alongside fixed SERDES/codec helpers. A broader comparison target for the eventual CPU, not evidence of M0 novelty.
 
 M0 is a straightforward member of an established family. The search does
 not support claims that CHRONOS is the first timestamped GPIO engine,

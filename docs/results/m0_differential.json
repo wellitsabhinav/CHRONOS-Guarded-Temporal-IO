@@ -1,0 +1,128 @@
+{
+  "configurations": [
+    {
+      "time_w": 32,
+      "depth": 8,
+      "random_cycles": 12000,
+      "seeds": [
+        {
+          "seed": 192,
+          "cycles": 3000,
+          "accepted": 1315,
+          "executed": 1093
+        },
+        {
+          "seed": 193,
+          "cycles": 3000,
+          "accepted": 1319,
+          "executed": 1094
+        },
+        {
+          "seed": 194,
+          "cycles": 3000,
+          "accepted": 1307,
+          "executed": 1122
+        },
+        {
+          "seed": 195,
+          "cycles": 3000,
+          "accepted": 1306,
+          "executed": 1090
+        }
+      ]
+    },
+    {
+      "time_w": 4,
+      "depth": 8,
+      "random_cycles": 12000,
+      "seeds": [
+        {
+          "seed": 192,
+          "cycles": 3000,
+          "accepted": 706,
+          "executed": 662
+        },
+        {
+          "seed": 193,
+          "cycles": 3000,
+          "accepted": 744,
+          "executed": 699
+        },
+        {
+          "seed": 194,
+          "cycles": 3000,
+          "accepted": 704,
+          "executed": 656
+        },
+        {
+          "seed": 195,
+          "cycles": 3000,
+          "accepted": 713,
+          "executed": 681
+        }
+      ]
+    },
+    {
+      "time_w": 8,
+      "depth": 1,
+      "random_cycles": 12000,
+      "seeds": [
+        {
+          "seed": 192,
+          "cycles": 3000,
+          "accepted": 799,
+          "executed": 774
+        },
+        {
+          "seed": 193,
+          "cycles": 3000,
+          "accepted": 827,
+          "executed": 797
+        },
+        {
+          "seed": 194,
+          "cycles": 3000,
+          "accepted": 820,
+          "executed": 795
+        },
+        {
+          "seed": 195,
+          "cycles": 3000,
+          "accepted": 800,
+          "executed": 765
+        }
+      ]
+    },
+    {
+      "time_w": 8,
+      "depth": 3,
+      "random_cycles": 12000,
+      "seeds": [
+        {
+          "seed": 192,
+          "cycles": 3000,
+          "accepted": 1116,
+          "executed": 1035
+        },
+        {
+          "seed": 193,
+          "cycles": 3000,
+          "accepted": 1134,
+          "executed": 1048
+        },
+        {
+          "seed": 194,
+          "cycles": 3000,
+          "accepted": 1126,
+          "executed": 1057
+        },
+        {
+          "seed": 195,
+          "cycles": 3000,
+          "accepted": 1115,
+          "executed": 1021
+        }
+      ]
+    }
+  ]
+}
