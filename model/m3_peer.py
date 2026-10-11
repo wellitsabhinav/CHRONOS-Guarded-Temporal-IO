@@ -85,7 +85,10 @@ def summarize(point, rows, samples, baseline_rows, baseline_samples,
     out = dict(point=asdict(point), expected_bits=expected,
                peer_edges=sum(kind == 'input' and data[1] in ('command','fall','rise','extra_rise','extra_fall')
                               for _, _, kind, data in point.timeline()))
-    raw_event = None if point.missing else point.event-(CLOCK if point.extra else 0)
+    # The short extra pulse is a distinct raw edge and is filtered at the
+    # tested phase; do not attribute its nonexistent capture to the command.
+    out['extra_raw_edges']=[point.event-CLOCK] if point.extra else []
+    raw_event = None if point.missing else point.event
     capture = None if raw_event is None else ceil(raw_event/CLOCK)*CLOCK
     for label, trace, observed in [('chronos', rows, samples),
                                    ('eventless', baseline_rows, baseline_samples),
