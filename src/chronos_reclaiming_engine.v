@@ -64,6 +64,7 @@ module chronos_reclaiming_engine #(
         assign {head_guarded,head_gen,head_pred,head_true,head_false,head_time}=head;
         assign packed_event={event_guarded,event_generation,event_predicate,event_state_true,event_state,event_timestamp};
     end else begin: ordinary_store
+        wire [GPIO_W-1:0] _unused_alternative=event_state_true;
         assign {head_false,head_time}=head;
         assign head_guarded=1'b0;
         assign head_gen=0;
@@ -165,8 +166,11 @@ module chronos_reclaiming_engine #(
             for(i=0;i<N_PRED;i=i+1) begin
                 live=0;
                 if(GUARDS_ENABLED) for(j=0;j<DEPTH;j=j+1)
-                    if(j<occupancy && entries[(read_ptr+j)%DEPTH][ENTRY_W-1] &&
-                       entries[(read_ptr+j)%DEPTH][TIME_W+2*GPIO_W +: PRED_W]==i)
+                    if(occupancy!=0 && (occupancy==CAPACITY ||
+                       (read_ptr<write_ptr && j>=read_ptr && j<write_ptr) ||
+                       (read_ptr>=write_ptr && (j>=read_ptr || j<write_ptr))) &&
+                       entries[j][ENTRY_W-1] &&
+                       entries[j][TIME_W+2*GPIO_W +: PRED_W]==i)
                         live=live+1;
                 assert(p_refs[i]==live);
                 if(pop && head_guarded && head_pred==i) assert(p_refs[i]!=0);
@@ -191,6 +195,14 @@ module chronos_reclaiming_engine #(
                     assert(!p_resolved[$past(predicate_id)]);
                 end
                 if(accepted) assert($past(event_timestamp>time_now && !epoch_closed));
+                if($past(pop))
+                    assert(read_ptr==(($past(read_ptr)==LAST_PTR) ? 0 : $past(read_ptr)+1'b1));
+                else assert(read_ptr==$past(read_ptr));
+                if(accepted && $past(have_last)) assert(last_time>$past(last_time));
+                for(j=0;j<DEPTH;j=j+1) begin
+                    if($past(push && write_ptr==j)) assert(entries[j]==$past(packed_event));
+                    else assert(entries[j]==$past(entries[j]));
+                end
             end
         end
     end

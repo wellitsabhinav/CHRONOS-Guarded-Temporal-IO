@@ -3,7 +3,7 @@
 `timescale 1ns/1ps
 module chronos_programmable_core #(
     parameter integer TIME_W=32, GPIO_W=24, DEPTH=8, PRED_W=2, GEN_W=8,
-    parameter integer GUARDS_ENABLED=1,
+    parameter integer GUARDS_ENABLED=0,
     parameter integer COUNT_W=(DEPTH>1) ? $clog2(DEPTH+1) : 1
 ) (
     input wire clk, rst_n,
@@ -131,11 +131,12 @@ module chronos_programmable_core #(
                     else if(direct_fire || !event_ready || (opcode==8 && !predicate_resolved_state[pid])) do_stall=1;
                     else begin
                         event_valid=1; event_timestamp=target; event_guarded=opcode==3;
-                        event_predicate=pid; event_generation=current_gen;
+                        event_predicate=(opcode==3) ? pid : {PRED_W{1'b0}};
+                        event_generation=(opcode==3) ? current_gen : {GEN_W{1'b0}};
                         if(opcode==2) event_state=instruction[24] ? action1 : action0;
                         else begin
                             event_state=(instruction[26] ^ (opcode==8 && predicate_value_state[pid])) ? action1 : action0;
-                            event_state_true=instruction[26] ? action0 : action1;
+                            if(opcode==3) event_state_true=instruction[26] ? action0 : action1;
                         end
                         do_retire=1;
                     end
@@ -217,6 +218,10 @@ module chronos_programmable_core #(
         f_past_valid<=1;
         if(!f_past_valid) assume(!rst_n);
         if(f_past_valid && $past(rst_n)) begin
+            if(sampler_busy) begin
+                assert(predicate_active_state[sample_pid]);
+                assert(sample_gen==predicate_generation_state[sample_pid*GEN_W +: GEN_W]);
+            end
             if(sampled) assert($past(sample_fire));
             if($past(sampler_busy && !sample_fire && !sample_expire && !(&time_now) && !epoch_closed)) begin
                 assert(sampler_busy);

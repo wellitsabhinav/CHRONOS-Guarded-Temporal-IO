@@ -29,6 +29,7 @@ class Harness:
         if not reset:
             assert int(d.control_ready.value) == int(m.ready), (e.time, 'control_ready')
         t = e.time
+        command_arm=int(d.predicate_arm.value) if not reset else 0
         m.step(gpio, write=write, start=start, reset=reset)
         d.clk.value = 1
         await Timer(5, unit='ns')
@@ -69,6 +70,8 @@ class Harness:
             assert int(d.engine.entries[(rp+index)%self.depth].value)==word, (t,index,a)
         row=dict(time=t, gpio=e.gpio, occupancy=len(e.queue), pc=m.pc, faults=m.faults,
                  sampled=m.sampled, retired=m.instruction_retired, stalled=m.stalled,
+                 arm_accepted=bool(command_arm and e.pulses.get('predicate_accepted')),
+                 resolve_accepted=bool(not command_arm and e.pulses.get('predicate_accepted')),
                  **{k:bool(v) for k,v in e.pulses.items()})
         self.rows.append(row)
         return row
@@ -133,3 +136,84 @@ async def small_random_programs(dut):
     assert counts['accepted'] and counts['executed'] and counts['predicate_accepted'] and counts['sampled']
     Path('m2_differential.json').write_text(json.dumps(dict(seeds=[2201,2202,2203],cycles=1800,
         depth=h.depth,time_w=h.time_w,gen_w=h.gen_w,guards=h.guards,counts=counts),indent=2)+'\n')
+
+
+@cocotb.test()
+async def directed_program_sampler_conflicts(dut):
+    h=Harness(dut)
+    if h.guards:
+        await h.cycle(reset=True)
+        words=[encode(4),encode(3,30)]
+        if h.depth>1:
+            words += [encode(3,1)]
+        words += [encode(5,29),encode(4),encode(0)]
+        origin=await h.load(words)
+        while not h.m.ready:
+            await h.cycle()
+        assert not h.m.faults and h.m.engine.predicates[0].generation==2
+        assert sum(r['executed'] for r in h.rows if origin<=r['time']) == (2 if h.depth>1 else 1)
+    for change in (27,28,29,30):
+        await h.cycle(reset=True)
+        origin=await h.load(slice_program(30,29,not h.guards))
+        while h.m.engine.time<=origin+33:
+            await h.cycle(int(h.m.engine.time-origin>=change))
+        assert h.m.sample_word == int(change<=27)
+        assert h.m.engine.gpio == (0xf0ccaa if change<=27 else 0x0f3355)
+    for word in (encode(15),encode(0,1),encode(4,8)):
+        await h.cycle(reset=True)
+        await h.load([word])
+        await h.cycle()
+        assert h.m.halted and h.m.faults&32
+    await h.cycle(reset=True)
+    await h.load([encode(1,i) for i in range(16)])
+    while not h.m.halted:
+        await h.cycle()
+    assert h.m.pc==15 and h.m.faults&32
+    await h.cycle(reset=True)
+    await h.load([encode(4),encode(5,30),encode(6,4),encode(0)])
+    while not h.m.ready:
+        await h.cycle()
+    assert h.m.faults&64 and h.m.faults&16  # hardware duplicate rejects, descriptor drains
+    await h.cycle(reset=True)
+    await h.load(slice_program(30,29,not h.guards))
+    await h.cycle(write=(0,encode(0)))
+    assert h.m.halted and h.m.faults&32
+    await h.cycle(reset=True)
+    assert not h.m.faults and h.m.ready
+
+
+@cocotb.test()
+async def immutable_descriptors_and_selected_edges(dut):
+    h=Harness(dut)
+    for direct in (True,False):
+        if not direct and not h.guards: continue
+        await h.cycle(reset=True)
+        words=[encode(1,0x0f3355),encode(1,(1<<24)|0xf0ccaa),encode(7,0x101),encode(4),
+               encode(9 if direct else 3,30),encode(5,(int(direct)<<26)|29),
+               encode(1,0x123456),encode(1,(1<<24)|0xabcdef),encode(7,0),encode(0)]
+        origin=await h.load(words)
+        while not h.m.ready: await h.cycle(1)
+        assert h.m.engine.gpio==0xf0ccaa and h.m.sample_word==1 and not h.m.faults
+        assert h.m.origin==origin
+    # Inclusive timeout permits a selected synchronized rise on the last edge.
+    for raw_rise in (27,28):
+        await h.cycle(reset=True)
+        words=[encode(1,1),encode(1,(1<<24)|2),encode(7,1|(1<<8)|(1<<16)|(2<<17)|(1<<20)|(3<<21)),
+               encode(4),encode(9,30),encode(5,(1<<26)|29),encode(0)]
+        origin=await h.load(words)
+        while h.m.engine.time<=origin+34:
+            t=h.m.engine.time-origin
+            await h.cycle(1 | (4 if t>=raw_rise else 0))
+        assert h.m.engine.gpio==(2 if raw_rise==27 else 0)
+        assert bool(h.m.faults&64)==(raw_rise==28)
+    # A high active-low select pin prevents a timed capture even when data matches.
+    await h.cycle(reset=True)
+    await h.load([encode(7,0x101|(1<<20)|(3<<21)),encode(4),encode(5,20),encode(0)])
+    while not h.m.ready: await h.cycle(9)
+    assert h.m.faults&64 and not h.m.engine.predicates[0].resolved
+    # A sampler/software RESOLVE conflict stalls on R, then software faults as duplicate.
+    await h.cycle(reset=True)
+    await h.load([encode(4),encode(5,9)]+[encode(1) for _ in range(6)]+[encode(6,4),encode(0)])
+    while not h.m.ready: await h.cycle()
+    assert any(r['sampled'] and r['stalled'] for r in h.rows)
+    assert h.m.halted and h.m.faults&32
