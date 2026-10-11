@@ -159,6 +159,22 @@ async def reset_and_epoch_edges(dut):
 
 
 @cocotb.test()
+async def defensive_late_head_is_discarded(dut):
+    h = Harness(dut)
+    await h.cycle(reset=True)
+    await h.cycle(event(min(5, h.model.limit), 0xFFFFFF))
+    # Deliberate simulation-only corruption through existing storage visibility.
+    # No production hook/port exists. Admission cannot legally create a late head.
+    dut.clk.value = 0
+    await Timer(1, unit="ns")
+    dut.dut.entries[0].value = 0xFFFFFF << h.width
+    h.model.queue._events[0] = event(0, 0xFFFFFF)
+    result = await h.cycle()
+    assert result.executed is None and h.model.gpio.packed == 0
+    assert int(h.model.faults) == 4 and len(h.model.queue) == 0
+
+
+@cocotb.test()
 async def randomized_differential(dut):
     h = Harness(dut)
     per_seed = []

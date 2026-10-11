@@ -1,47 +1,29 @@
-# Sample testbench for a Tiny Tapeout project
+# CHRONOS verification
 
-This is a sample testbench for a Tiny Tapeout project. It uses [cocotb](https://docs.cocotb.org/en/stable/) to drive the DUT and check the outputs.
-See below to get started or for more information, check the [website](https://tinytapeout.com/hdl/testing/).
+From the repository root, `make test` runs model tests, core differential
+tests in four parameter configurations, four black-box top-pin suites,
+and lint. `make formal` runs the reduced-parameter bounded SAT proof.
+`scripts/run_sim.py` is the portable cocotb/Icarus runner; it validates the
+JUnit results as well as the simulator exit code. See
+[setup](../docs/development_setup.md) and [results](../docs/results/m0_verification.md).
 
-## Setting up
+`test_engine.py` compares architectural state every edge against the
+independent Python model. `test.py` drives only the standard top pins and
+is reused by the official Tiny Tapeout gate workflow. The loader is
+documented in [host_interface.md](../docs/host_interface.md).
 
-1. Edit [Makefile](Makefile) and modify `PROJECT_SOURCES` to point to your Verilog files.
-2. Edit [tb.v](tb.v) and replace `tt_um_example` with your module name.
-
-## How to run
-
-To run the RTL simulation:
+The inherited Makefile remains the official action's entry point. Locally:
 
 ```sh
+cd test
 make -B
 ```
 
-To run gatelevel simulation, first harden your project and copy `../runs/wokwi/results/final/verilog/gl/{your_module_name}.v` to `gate_level_netlist.v`.
+For gate simulation, install the official CMOS5L PDK/tool environment,
+copy the hardened `tt_um_chronos` powered netlist to the ignored
+`test/gate_level_netlist.v`, and run `make -B GATES=yes`. The official GDS
+workflow performs this setup automatically.
 
-Then run:
-
-```sh
-make -B GATES=yes
-```
-
-If you wish to save the waveform in VCD format instead of FST format, edit tb.v to use `$dumpfile("tb.vcd");` and then run:
-
-```sh
-make -B FST=
-```
-
-This will generate `tb.vcd` instead of `tb.fst`.
-
-## How to view the waveform file
-
-Using GTKWave
-
-```sh
-gtkwave tb.fst tb.gtkw
-```
-
-Using Surfer
-
-```sh
-surfer tb.fst
-```
+Waves are disabled by default. Add `-DWAVES` to compilation when debugging,
+then use GTKWave or Surfer on the generated FST/VCD. `tb.gtkw` references
+relative paths. Generated waves and netlists are ignored.
