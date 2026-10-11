@@ -19,8 +19,9 @@ change and sticky GUARD_MISS. The competition pad top remains M0.
 [Initial evaluation](docs/results/m1_initial_evaluation.md) records the 30 model
 cases, 3600 random differential cycles, small bounded proof, late-resolution
 experiment and paired core synthesis: +893 cells, +27280.4112 µm², +332 flops.
-This supports provisional retention for M2, not a uniqueness or competitor
-performance claim. `make m1-test m1-formal m1-synth m1-experiment` reproduces it;
+This supported provisional M2 integration; the M2 experiment below rejects
+guard retention. It establishes no uniqueness or competitor performance claim.
+`make m1-test m1-formal m1-synth m1-experiment` reproduces the initial result;
 mapping requires CHRONOS_LIBERTY.
 
 M0 contains a runnable independent model, a 32-bit timer, an ordered
@@ -159,19 +160,28 @@ database or waveform is committed.
 
 ## Roadmap and limitations
 
+M2's programmable companion and real nibble-loader wrapper are implemented.
+Classification: **CHRONOS_M2_GUARDS_NO_GO_ORDINARY_DEFAULT**. Guarded and fused
+ordinary sampling tie on measured SPI-like margin and response throughput;
+the supported M2 default disables guards. The competition top remains M0.
+See the [A–N evaluation](docs/results/m2_initial_evaluation.md) and
+[programming contract](docs/m2_programmable_core.md). No M2 physical campaign
+has started; M2 pushes run logic CI and exclude automatic GDS.
+
 M0 temporal decoupling → M1 guarded futures → M2 programmable control core
 → M3 firmware UART/SPI/I²C → M4 physical qualification.
-The next architectural objective is **`CHRONOS_M2_PROGRAMMABLE_CORE`**;
-compact scheduling/resolution and safe predicate reclamation must support
-programmable protocol workloads. See [roadmap](docs/roadmap.md).
+The next architectural objective is **`CHRONOS_M3_ORDINARY_SPI_PEER_TIMING`**;
+qualify ordinary programmable response against varying external peer clocks.
+See [roadmap](docs/roadmap.md).
 
 Current limits: synchronous host only, 15 clocks per loaded event, FIFO
 ordered insertion, one dispatch per clock, no cross-rollover scheduling,
 and exact-timing measurement requires continuous selection/clock, normal
 output mode and no reset. Readback and deselection intentionally multiplex
-or mask pads. The M1 guard/predicate machinery exists only in the experimental
-core; no CPU, UART/SPI/I²C, input capture, analog bus qualification or silicon
-evidence exists yet. Generation reuse is bounded within a reset epoch.
+or mask pads. M2 has 16 unrolled words and one sampler; UART and SPI-like traces
+are simulation fixtures, with no full protocol stack, analog qualification or
+silicon evidence. M1 generations remain bounded within an epoch; M2's internally
+owned generations can cycle after safe reclamation.
 
 ## License and development
 

@@ -1,0 +1,62 @@
+{
+  "results": [
+    {
+      "name": "dispatcher",
+      "status": "PASS",
+      "edges": 20,
+      "time_w": 4,
+      "depth": 3,
+      "gpio_w": 2,
+      "pred_w": 1,
+      "gen_w": 2,
+      "diagnostic": "",
+      "method": "bounded Yosys SAT; initial reset only; arbitrary subsequent inputs/program writes",
+      "limitation": "not unbounded or full-width; arbitrary external token ABA is outside the M2 interface",
+      "source_sha256": {
+        "src/chronos_reclaiming_engine.v": "a1503114958b71960b02a4984b0e172907c274389dfea3f336e85af38bb5dcdb",
+        "formal/reclaim_top.v": "92990906d8c163d56fe7b7438efb7e301e5b17525dd9da314affeafc2c009909"
+      }
+    },
+    {
+      "name": "integrated",
+      "status": "PASS",
+      "edges": 20,
+      "time_w": 5,
+      "depth": 2,
+      "gpio_w": 2,
+      "pred_w": 1,
+      "gen_w": 2,
+      "diagnostic": "",
+      "method": "bounded Yosys SAT; initial reset only; arbitrary subsequent inputs/program writes",
+      "limitation": "not unbounded or full-width; arbitrary external token ABA is outside the M2 interface",
+      "source_sha256": {
+        "src/chronos_reclaiming_engine.v": "a1503114958b71960b02a4984b0e172907c274389dfea3f336e85af38bb5dcdb",
+        "src/chronos_programmable_core.v": "e3d6096cd5f3197af085ba0c2077270549b83c06d66f41d5285f7f53daeac6e1",
+        "formal/programmable_top.v": "3b7e2c7598fc920f145ef120e3d387343ac4fe3c435366868cb4c75620b64e13"
+      }
+    }
+  ],
+  "assumptions": [
+    "first edge reset",
+    "clock continues",
+    "all subsequent reset, input, write/start and raw dispatcher commands arbitrary",
+    "no arbitrary delayed external token supported by integrated M2"
+  ],
+  "properties": [
+    "FIFO bounds",
+    "reference conservation",
+    "safe ARM",
+    "sampler token ownership",
+    "immutable queued actions",
+    "reset",
+    "due-only GPIO",
+    "wrong-path exclusion",
+    "retirement without replay"
+  ],
+  "first_attempt": {
+    "dispatcher": "TIMEOUT at 120 seconds",
+    "integrated": "PASS at 20 edges",
+    "change": "formal observer replaced variable modulo indexing with fixed physical-slot membership"
+  },
+  "limits": "20-edge reduced-instance proofs, no induction, no full-width or analog proof"
+}

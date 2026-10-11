@@ -1,0 +1,34 @@
+{
+  "classification": "CHRONOS_M2_GUARDS_NO_GO_ORDINARY_DEFAULT",
+  "guards_enabled_default": false,
+  "physical_campaign_started": false,
+  "source_sha256": {
+    "src/chronos_programmable_core.v": "e3d6096cd5f3197af085ba0c2077270549b83c06d66f41d5285f7f53daeac6e1",
+    "src/chronos_reclaiming_engine.v": "a1503114958b71960b02a4984b0e172907c274389dfea3f336e85af38bb5dcdb",
+    "src/tt_um_chronos_m2.v": "e275cc7619bcd6f001c8dc0e662fae5ef50c370435e4d58fa3d94819c6ed473e",
+    "model/programmable_core.py": "c4b9e1492e450596f7705c2a99b0848817f0d1492081d93ec38e2e644de7e7f8",
+    "model/m2_workloads.py": "9c1514df4d73b776b249de01f319ef272a8e0a222ab8d81d050c50b2a80d480e",
+    "model/tests/test_programmable.py": "87546d9a6f9caeefcf793cfe7fef14bda36eed8c55e7d5062ad4e22310bad11e",
+    "test/test_programmable.py": "5e9d5c1568a128c840029ce133d9ba82609bbb92bfd78ece223225bcf13d0972",
+    "formal/reclaim_top.v": "92990906d8c163d56fe7b7438efb7e301e5b17525dd9da314affeafc2c009909",
+    "formal/programmable_top.v": "3b7e2c7598fc920f145ef120e3d387343ac4fe3c435366868cb4c75620b64e13",
+    "test/test_m2_experiments.py": "a80238a787319658e14142c0d971ca9198ebb466e111a781ad592a781d86bf23",
+    "test/test_m2_pins.py": "4b9ec099af8453390c95b209a930b6a857962a362f464a2ed2836d91ac45d844",
+    "test/test_m2_reclaim.py": "1f94f612bc204e66b7de55fa3d5606c9164f412d5e035b9c323b2077a49d8473",
+    "test/test_m2_reuse.py": "ea9c16547b5badb23473899453dcd4abda1d92fe7480019f7a91a5104412607e",
+    "test/test_m2_throughput.py": "c7a476fbf75828750dddf205c293305b235a19352c12b11ef5ce9476501e9453",
+    "test/test_m2_wrap.py": "5d5a710265ea95240155b81b0fbc107503d0b2ab06b92aaa4a4436b004bb4ce6",
+    "scripts/m2_evidence.py": "0e8c7f35029c0b04c9e46f47a6492a2290d643ca40e01295f0e212aee677a7ae",
+    "scripts/m2_experiment.py": "6be793917fe65061a30c940102c9f0f313c83d0bf181e51d0fa246c8d13b19db",
+    "scripts/m2_formal.py": "e268a172a647555e9ed2baee5bea04c7a872883fe5583f1e07c112ccd7316459",
+    "scripts/m2_synth.py": "d38b676f2d0c8fc3195ef5924b3b01b2bec8369b898d7bd236076069a48e8102",
+    "scripts/m2_verify.py": "d62f03913bf505a6d1772bbeda40fc1071313e134f3f6ca3b790ea1ce443bae9"
+  },
+  "commands": [
+    "make m2-test",
+    "make m2-experiment",
+    "make m2-formal",
+    "CHRONOS_LIBERTY=<pinned-liberty> make m2-synth",
+    "python scripts/m2_evidence.py"
+  ]
+}

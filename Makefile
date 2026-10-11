@@ -3,6 +3,16 @@ PYTHON ?= python3
 
 .PHONY: test model-test rtl-test diff-test lint synth formal harden
 .PHONY: m1-test m1-formal m1-synth m1-experiment
+.PHONY: m2-test m2-formal m2-synth m2-experiment
+m2-test:
+	$(PYTHON) -m pytest model/tests/test_programmable.py -q
+	$(PYTHON) scripts/m2_verify.py
+m2-formal:
+	$(PYTHON) scripts/m2_formal.py
+m2-synth:
+	$(PYTHON) scripts/m2_synth.py
+m2-experiment:
+	$(PYTHON) scripts/m2_experiment.py
 m1-test:
 	$(PYTHON) -m pytest model/tests/test_guarded.py -q
 	$(PYTHON) scripts/run_sim.py guarded

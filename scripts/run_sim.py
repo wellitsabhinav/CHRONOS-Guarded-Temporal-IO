@@ -23,7 +23,7 @@ def run(top, module, parameters=None):
     for key, value in (parameters or {}).items():
         command += [f"-P{top}.{key}={value}"]
     command += [str(path) for path in sorted((ROOT / "src").glob("*.v"))]
-    if top != "chronos_guarded_engine":
+    if top in ("tb", "engine_tb"):
         command += [str(ROOT / "test" / f"{'tb' if top == 'tb' else 'engine_tb'}.v")]
     subprocess.run(command, check=True, cwd=ROOT)
     env = os.environ.copy()
@@ -40,6 +40,8 @@ def run(top, module, parameters=None):
     cases = report.findall(".//testcase")
     if not cases or report.findall(".//failure") or report.findall(".//error"):
         raise SystemExit("cocotb tests failed; inspect build results.xml")
+    if module.startswith(("test_m2", "test_programmable")):
+        (build / f"{module}_results.xml").write_bytes((build / "results.xml").read_bytes())
     print(f"PASS: {top} {parameters or {}} ({len(cases)} cocotb tests)")
 
 

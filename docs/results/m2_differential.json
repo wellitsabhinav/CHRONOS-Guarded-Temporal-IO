@@ -1,0 +1,127 @@
+{
+  "status": "PASS",
+  "model_tests": 5,
+  "all_model_regression_tests": 70,
+  "suites": [
+    {
+      "file": "build/chronos_programmable_core/TIME_W16-DEPTH1-GEN_W2-GUARDS_ENABLED1/test_programmable_results.xml",
+      "passed": 4
+    },
+    {
+      "file": "build/chronos_programmable_core/TIME_W16-DEPTH3-GEN_W2-GUARDS_ENABLED1/test_programmable_results.xml",
+      "passed": 4
+    },
+    {
+      "file": "build/chronos_programmable_core/TIME_W16-DEPTH3-GEN_W8-GUARDS_ENABLED0/test_programmable_results.xml",
+      "passed": 4
+    },
+    {
+      "file": "build/chronos_programmable_core/TIME_W16-DEPTH8-GEN_W8-GUARDS_ENABLED1/test_m2_experiments_results.xml",
+      "passed": 1
+    },
+    {
+      "file": "build/chronos_programmable_core/TIME_W16-DEPTH8-GEN_W8-GUARDS_ENABLED1/test_m2_throughput_results.xml",
+      "passed": 2
+    },
+    {
+      "file": "build/chronos_programmable_core/TIME_W32-DEPTH8-GEN_W8-GUARDS_ENABLED1/test_m2_reuse_results.xml",
+      "passed": 1
+    },
+    {
+      "file": "build/chronos_programmable_core/TIME_W5-DEPTH3-GEN_W2-GUARDS_ENABLED1/test_m2_wrap_results.xml",
+      "passed": 1
+    },
+    {
+      "file": "build/chronos_reclaiming_engine/TIME_W8-DEPTH3-GEN_W2/test_m2_reclaim_results.xml",
+      "passed": 1
+    },
+    {
+      "file": "build/tt_um_chronos_m2/test_m2_pins_results.xml",
+      "passed": 1
+    }
+  ],
+  "random_configurations": [
+    {
+      "seeds": [
+        2201,
+        2202,
+        2203
+      ],
+      "cycles": 1800,
+      "depth": 1,
+      "time_w": 16,
+      "gen_w": 2,
+      "guards": true,
+      "counts": {
+        "accepted": 41,
+        "executed": 13,
+        "guard_missed": 23,
+        "predicate_accepted": 136,
+        "sampled": 46,
+        "stalled": 0
+      }
+    },
+    {
+      "seeds": [
+        2201,
+        2202,
+        2203
+      ],
+      "cycles": 1800,
+      "depth": 3,
+      "time_w": 16,
+      "gen_w": 2,
+      "guards": true,
+      "counts": {
+        "accepted": 41,
+        "executed": 13,
+        "guard_missed": 23,
+        "predicate_accepted": 136,
+        "sampled": 46,
+        "stalled": 0
+      }
+    },
+    {
+      "seeds": [
+        2201,
+        2202,
+        2203
+      ],
+      "cycles": 1800,
+      "depth": 3,
+      "time_w": 16,
+      "gen_w": 8,
+      "guards": false,
+      "counts": {
+        "accepted": 20,
+        "executed": 19,
+        "guard_missed": 0,
+        "predicate_accepted": 106,
+        "sampled": 43,
+        "stalled": 0
+      }
+    }
+  ],
+  "random_cycles": 5400,
+  "reuse": {
+    "cycles": 512,
+    "time_w": 32,
+    "gen_w": 8,
+    "depth": 8,
+    "default_generation_rollovers": 2,
+    "wrong_path": 0,
+    "cursor_overflow_rejected": true
+  },
+  "reduced_generation_reuses_per_configuration": 512,
+  "compared": [
+    "PC/instruction/status",
+    "time/origin/cursor",
+    "entire logical FIFO through hierarchy",
+    "GPIO data/OE",
+    "predicate active/resolved/value/generation/refcount",
+    "sync1/sync2/previous",
+    "sampler descriptor/config/actions/token",
+    "command outcomes/retire pulses/sticky faults"
+  ],
+  "limits": "directed plus three seeds x 600/configuration; not exhaustive full-width verification"
+}

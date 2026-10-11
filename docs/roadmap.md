@@ -4,7 +4,7 @@
 | --- | --- | --- |
 | M0 temporal decoupling | CHRONOS_M0_TEMPORAL_DECOUPLING_CONFIRMED | Model, ordered FIFO/dispatcher, loadable top, faults/reset, differential evidence and physical checkpoint |
 | M1 guarded futures | CHRONOS_M1_GUARDED_FUTURES_LOGIC_ESTABLISHED | Alternative bundles, registered predicates/generations, deterministic misses, small differential/proof/synthesis evidence and late-decision experiment |
-| M2 programmable core | CHRONOS_M2_PROGRAMMABLE_CORE | Minimal processor, compact ISA, assembler, program storage, scheduling instructions and loader |
+| M2 programmable core | CHRONOS_M2_GUARDS_NO_GO_ORDINARY_DEFAULT | 16-word sequencer, program loader, synchronized sampling, owned token reclamation; guard utility failed |
 | M3 protocol set | CHRONOS_M3_PROTOCOL_SET_COMPLETE | Firmware UART, SPI and I2C on the same programmable architecture |
 | M4 physical qualification | CHRONOS_M4_PHYSICAL_QUALIFIED | 6x4 GDS, timing, precheck, DRC, LVS as supplied, routed gate tests and submission-quality documentation |
 
@@ -36,3 +36,13 @@ or novelty across all prior art. **PLANNED WORK / next exact milestone:**
 predicate reclamation. UART/SPI/I2C firmware belongs to M3. Do not freeze
 an ISA or build protocol engines during M1. Expanded physical qualification
 follows programmable integration, with the 6x4/50 MHz budget retained.
+
+## M2 decision: ordinary default, NO-GO for guards
+
+Fused ordinary sampling ties the guarded one-clock margin and full SPI-like
+response success across the specified sweep. Both complete 32 responses in
+1504 clocks. Guarded M2 costs 2.077× M1 core area without measured protocol
+benefit. See [M2 evaluation](results/m2_initial_evaluation.md). Retain reproducible
+guard experiments and stop that expansion. The sole next milestone is
+**CHRONOS_M3_ORDINARY_SPI_PEER_TIMING**: qualify ordinary correctness against
+varying external clocks. No M2 physical campaign starts on the negative result.
