@@ -83,18 +83,34 @@ def summarize(point, rows, samples, baseline_rows, baseline_samples):
     for label, trace, observed in [('chronos', rows, samples),
                                    ('eventless', baseline_rows, baseline_samples)]:
         outputs = [r for r in trace if r['emitted']]
+        transitions=[]
+        previous_gpio=0
+        for row in trace:
+            if row['gpio'] != previous_gpio:
+                transitions.append(row)
+            previous_gpio=row['gpio']
         decisions = [r['t'] for r in trace if r['sampled']]
         records = []
         for i, s in enumerate(observed):
             # Include an output at T in diagnostics, although oracle reads old state.
-            action = outputs[i] if i < len(outputs) else None
-            o = None if action is None else action['t']
             target = (point.deadline+i*point.spacing)*CLOCK
+            action = (next((x for x in outputs if x['t']==target),None) if label=='chronos'
+                      else outputs[i] if i < len(outputs) else None)
+            commit = None if action is None else action['t']
+            # A redundant event is not an externally observed transition.
+            o = commit if any(x['t']==commit for x in transitions) else None
+            expected_oe = 0 if (point.cs_early is not None and
+                                s['t'] >= point.cs_early+3*CLOCK) else 1
+            correct = s['gpio'] >> 16 == expected_oe and (
+                expected_oe == 0 or ((s['gpio'] >> 8) & 1) == expected[i])
+            stable = next((x['t'] for x in reversed(transitions) if x['t'] < s['t']),None)
             records.append(dict(index=i, T=s['t'], expected=expected[i],
                 observed=(s['gpio'] >> 8) & 1, oe=s['gpio'] >> 16,
-                correct=((s['gpio'] >> 8) & 1) == expected[i] and s['gpio'] >> 16 == 1,
-                requested_O=target, O=o, timing_error=None if o is None else o-target,
-                setup=None if o is None else s['t']-o))
+                expected_oe=expected_oe,correct=correct,
+                requested_O=target, commit_O=commit, O=o,
+                timing_error=None if o is None else o-target,
+                commit_error=None if commit is None else commit-target,
+                stable_since=stable,setup=None if stable is None or not correct else s['t']-stable))
         r = decisions[0] if decisions else None
         admissions = [x['t'] for x in trace if x.get('accepted')]
         a = admissions[0] if admissions else None
@@ -112,6 +128,8 @@ def summarize(point, rows, samples, baseline_rows, baseline_samples):
             worst_setup=min(setups) if setups else None,
             average_setup=sum(setups)/len(setups) if setups else None,
             output_times=[x['t'] for x in outputs],
+            pin_transitions=[(x['t'],x['gpio']) for x in transitions],
+            stale_commits_after_cs=[] if point.cs_early is None else [x['t'] for x in outputs if x['t']>point.cs_early+3*CLOCK],
             issue_stalls=sum(x.get('stalled', False) for x in trace),
             max_occupancy=max((x.get('occupancy',0) for x in trace),default=0),
             final_faults=trace[-1].get('faults',0),
