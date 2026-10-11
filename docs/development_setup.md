@@ -28,6 +28,11 @@ similarly need a space-free copy of `share/verilator` as VERILATOR_ROOT,
 and their `verilator_bin` executable as VERILATOR. No source/tool patch is
 required. A standard Linux install requires neither workaround.
 
+The optional devcontainer selects CMOS5L and the matching support-tools
+branch/LibreLane version. It still requires the pinned PDK installation.
+The devcontainer image itself was not built on this machine because Docker
+is absent; GitHub Actions supplies the official physical-flow environment.
+
 ## Standalone cell mapping
 
 Use the official [CMOS5L action's PDK revision](https://github.com/TinyTapeout/tt-gds-action/blob/ihp-cmos5l/install_sg13cmos5l.sh),

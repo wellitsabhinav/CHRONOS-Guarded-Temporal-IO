@@ -19,6 +19,11 @@ still list old tile sizes and dimensions: use the competition's explicit
 6x4 choice, not those comments. The top interface provides eight inputs,
 eight outputs, eight bidirectional data/OE pairs, clk, rst_n and ena.
 
+The inherited devcontainer also selected generic sg13g2/main and an older
+LibreLane version. CHRONOS aligns its defaults to ihp-sg13cmos5l,
+tt-support-tools branch ihp-sg13cmos5l, and the action's LibreLane 3.1.0.dev3
+pin. These development defaults do not modify the official GDS workflows.
+
 [Local hardening](https://tinytapeout.com/guides/local-hardening/) describes
 LibreLane, Docker and tt-support-tools. Its general IHP example selects
 sg13g2, so do not use it unchanged for CMOS5L. Read the competition action
