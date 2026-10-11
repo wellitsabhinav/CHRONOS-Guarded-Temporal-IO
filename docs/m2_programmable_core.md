@@ -16,6 +16,7 @@ compare configuration. One sampler descriptor captures configuration, token,
 deadline and (for direct mode) both alternatives. No external token API exists.
 START at PC zero requires halted, empty FIFO, idle sampler and open epoch.
 It captures pre-edge time as origin/cursor. Program writes have the same gate.
+Simultaneous core WRITE/START requests reject both and set PROGRAM_FAULT.
 Loaded words persist across START. One instruction retires per clock at most.
 HALT stops issuance but does not stop time, queued events or pending sampling.
 Unwritten fetch, malformed instruction, PC overflow and semantic rejection

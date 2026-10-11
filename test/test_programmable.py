@@ -180,6 +180,9 @@ async def directed_program_sampler_conflicts(dut):
     assert h.m.halted and h.m.faults&32
     await h.cycle(reset=True)
     assert not h.m.faults and h.m.ready
+    await h.cycle(write=(0,encode(0)),start=True)
+    assert h.m.halted and h.m.faults&32 and not h.m.valid[0]
+    assert not h.m.write_accepted and not h.m.start_accepted
 
 
 @cocotb.test()

@@ -27,7 +27,8 @@ at the checkpoint. Preserve that branch until closure merges.
 M1 [PR #2](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/pull/2)
 targets `main`; head `36c65ac` logic passes and existing physical run
 `38159129429` was running. These runs still build the qualified M0 top.
-M2 is delivered as a draft against M1; current-head CI is reported in its PR
+M2 [draft PR #4](https://github.com/wellitsabhinav/CHRONOS-Guarded-Temporal-IO/pull/4)
+targets M1; current-head CI is reported in its PR
 separately from local evidence. M2 pushes exclude automatic GDS. Official
 action implementations/pins, production physical config and `info.yaml` remain.
 
@@ -132,7 +133,7 @@ sampler descriptor/config/actions, command outcomes, retire pulses and faults.
 Directed cases cover pre-edge reuse, multiple references, full same/different-
 predicate pop/refill, stale tokens, sampler/software conflicts, immutable actions,
 inclusive expiry/select gating, late/unresolved samples, malformed programs,
-halted pending work, reset and epoch closure. Default 32-bit cursor overflow
+halted pending work, simultaneous WRITE/START rejection, reset and epoch closure. Default 32-bit cursor overflow
 and generation rollover are tested; timer wrap is exercised at reduced width.
 
 Separate **20-edge Yosys SAT** proofs pass: dispatcher TIME_W=4/DEPTH=3 and

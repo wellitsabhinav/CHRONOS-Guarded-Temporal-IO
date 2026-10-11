@@ -177,15 +177,13 @@ class ProgrammableCore:
             else:
                 self.pc += 1
         if write is not None or start:
-            if not control_ready:
+            if not control_ready or (write is not None and start):
                 fault()
             elif write is not None:
                 address, word = write
                 self.program[address] = word
                 self.valid[address] = True
                 self.write_accepted = True
-                if start:
-                    fault()
             else:
                 self.pc = 0
                 self.origin = self.cursor = now
