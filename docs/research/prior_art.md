@@ -22,7 +22,7 @@ repository claims below have not been independently reproduced.
 
 * [Tempo](https://github.com/satyaammu93/jane-street-asic-2026/tree/main/protocol_emulator): two programmable engines, pin/timestamp capture, bounded waits and firmware protocols. Its published reports claim CMOS5L qualification. Timing capture and event coordination overlap the broader design space.
 * [Abagel-coder/protocol-emulator](https://github.com/Abagel-coder/protocol-emulator): time-triggered programmable core with WAIT/DELAY/deadline direction; a different implementation of temporal protocol execution is already public.
-* [Loom](https://github.com/thomasgilbert481/tt_um_loom): four barrel threads with per-thread deadlines and deadline-latched pin writes that land on a requested clock independently of the thread's instruction slot. This is close competition prior art for M0. Its current README claims an 8×4 implementation; that project's allocation does not change CHRONOS's 6×4 constraint from the official rules. Its verification and physical results have not been independently reproduced here.
+* [Loom](https://github.com/thomasgilbert481/tt_um_loom): four barrel threads with per-thread deadlines and deadline-latched pin writes independent of the thread's instruction slot. This is close competition prior art for M0. Its current README reports 6×4; the earlier 8×4 observation is superseded. Its verification and physical claims have not been independently reproduced here.
 * [sjrai007/gp_pae architecture](https://github.com/sjrai007/gp_pae/blob/main/ARCHITECTURE.md): independent programmable sequencer lanes and Hardcaml parameter exploration. Treat design descriptions separately from verified implementation results.
 * [2AMLogic/sg13cmos5l-protocol-emulator](https://github.com/2AMLogic/sg13cmos5l-protocol-emulator): public specification-stage timing-oriented programmable processor direction.
 * [smprather/serial-protocol-emulator](https://github.com/smprather/janestreet-blog-serial-protocol-emulator): programmable control, tick engine and pin matrix, alongside fixed SERDES/codec helpers. A broader comparison target for the eventual CPU, not evidence of M0 novelty.
@@ -32,3 +32,41 @@ not support claims that CHRONOS is the first timestamped GPIO engine,
 deterministic I/O engine, deadline ISA, or CPU-independent waveform queue.
 No conclusion about the absence of guarded-future designs follows from a
 limited public repository search.
+
+## Focused M1 mechanism check (2026-10-11)
+
+Question: does one pre-materialized alternative bundle, resolved later through
+a registered generation token, with exact timestamp selection and fail-closed
+miss retirement, offer useful competition differentiation?
+
+**ESTABLISHED FACT from the cited source:** XMOS AN03002 sections 2/3 buffers
+output and starts timed output on a selected port clock. RP2040 chapter 3
+provides JMP PIN, WAIT, delayed instructions and side-set. PRU is programmable
+real-time I/O, and FlexIO AN13358 demonstrates configurable protocol emulation.
+PRET/PTIDES and STM32 output compare already establish explicit timing and
+timestamp-oriented execution. None of those broad capabilities is claimed
+as CHRONOS novelty.
+
+The closest examined competition source is
+[Loom semantics section 6.10](https://github.com/thomasgilbert481/tt_um_loom/blob/main/docs/SEMANTICS.md):
+one staged `(pin,value)` fires at the thread deadline; replacement staging
+and an already-late deadline may apply a write at a later instruction commit.
+The inspected contract does not describe CHRONOS's atomic two-alternative,
+generation-matched bundle or unresolved-miss retirement. That is a narrow
+source comparison, not proof that Loom cannot implement similar behavior.
+RP2040's JMP PIN followed by output is already a small conditional reaction;
+do not equate our chosen three-stage baseline with its optimum implementation.
+
+**INFERENCE / WORKING HYPOTHESIS:** CHRONOS offers a compact programming
+contract for preparing complete data+OE alternatives before a decision, with
+one resolver write sufficient one accepted clock before a fixed deadline.
+This removes subsequent software action construction/issue from that deadline
+path. A specialized mux or comparable guarded peripheral could match it.
+The distinction lies in the programmable contract and safety policy, not a
+new law of timing, general speculation or uniqueness of conditional GPIO.
+
+**UNPROVEN CLAIM:** first implementation, patentability, globally novel
+mechanism, optimal area, or measured superiority to any named architecture.
+The limited search supports retaining M1 for M2 integration, not marketing
+those claims. Reassess if programmable integration consumes disproportionate
+area or if actual UART/SPI/I2C control paths gain no useful slack.

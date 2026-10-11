@@ -30,8 +30,9 @@ module chronos_guarded_engine #(
     localparam integer PTR_W=(DEPTH>1) ? $clog2(DEPTH) : 1;
     localparam integer N_PRED=1<<PRED_W;
     localparam integer ENTRY_W=TIME_W+2*GPIO_W+PRED_W+GEN_W+1;
-    localparam [PTR_W-1:0] LAST_PTR=DEPTH-1;
-    localparam [COUNT_W-1:0] CAPACITY=DEPTH;
+    localparam integer LAST=DEPTH-1;
+    localparam [PTR_W-1:0] LAST_PTR=LAST[PTR_W-1:0];
+    localparam [COUNT_W-1:0] CAPACITY=DEPTH[COUNT_W-1:0];
     reg [ENTRY_W-1:0] entries [0:DEPTH-1];
     reg [PTR_W-1:0] read_ptr, write_ptr;
     reg [TIME_W-1:0] last_time;

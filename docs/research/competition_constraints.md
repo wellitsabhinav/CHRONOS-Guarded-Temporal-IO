@@ -27,7 +27,7 @@ pin. These development defaults do not modify the official GDS workflows.
 [Local hardening](https://tinytapeout.com/guides/local-hardening/) describes
 LibreLane, Docker and tt-support-tools. Its general IHP example selects
 sg13g2, so do not use it unchanged for CMOS5L. Read the competition action
-for the actual process and tool pins. [Precheck source](https://github.com/TinyTapeout/tt-precheck)
+for the actual process and tool pins. [Precheck source](https://github.com/TinyTapeout/tt-support-tools/tree/ihp-sg13cmos5l/precheck)
 defines additional layout checks; synthesis is not physical qualification.
 
 [Memory guidance](https://tinytapeout.com/specs/memory/) explicitly warns
@@ -36,3 +36,10 @@ shows macro instantiation/configuration and test transport; its prior-shuttle
 success does not establish compatibility with a current CMOS5L build.
 The [IHP library reference](https://ihp-open-pdk-docs.readthedocs.io/en/latest/contents/reference_libraries/sram.html)
 lists macro variants. M0 needs only 448 event bits; no SRAM is instantiated.
+
+M1 re-read the announcement, template, official GDS/precheck action and
+submission interface on 2026-10-11. The prescribed allocation remains 6x4;
+no final submission form is published in the announcement yet. M1 is an
+experimental internal core, not a competition-ready programmable chip.
+The same production Tiny Tapeout pin interface, physical configuration and
+50 MHz target remain in force. M2/M3 must deliver reprogrammable protocols.
