@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def run(top, module, parameters=None):
+def run(top, module, parameters=None, extra_sources=()):
     from cocotb_tools import config
     from find_libpython import find_libpython
     build = ROOT / "build" / top
@@ -23,6 +23,7 @@ def run(top, module, parameters=None):
     for key, value in (parameters or {}).items():
         command += [f"-P{top}.{key}={value}"]
     command += [str(path) for path in sorted((ROOT / "src").glob("*.v"))]
+    command += [str(ROOT / path) for path in extra_sources]
     if top in ("tb", "engine_tb"):
         command += [str(ROOT / "test" / f"{'tb' if top == 'tb' else 'engine_tb'}.v")]
     subprocess.run(command, check=True, cwd=ROOT)

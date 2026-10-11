@@ -4,6 +4,9 @@ PYTHON ?= python3
 .PHONY: test model-test rtl-test diff-test lint synth formal harden
 .PHONY: m1-test m1-formal m1-synth m1-experiment
 .PHONY: m2-test m2-formal m2-synth m2-experiment
+.PHONY: m3-experiment
+m3-experiment:
+	$(PYTHON) scripts/m3_experiment.py
 m2-test:
 	$(PYTHON) -m pytest model/tests/test_programmable.py -q
 	$(PYTHON) scripts/m2_verify.py
