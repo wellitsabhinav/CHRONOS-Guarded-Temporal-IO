@@ -2,7 +2,15 @@ name: gds
 
 on:
   push:
-    branches-ignore: [development/m2-programmable-core]
+    branches-ignore: [development/m2-programmable-core, development/m3-ordinary-spi-peer-timing, 'research/m3-*']
+    # Research evidence and workflow maintenance do not launch physical work.
+    # Automatic qualification applies only to the historical M0 production top.
+    paths:
+      - 'src/project.v'
+      - 'src/chronos_engine.v'
+      - 'src/chronos_loader.v'
+      - 'src/config.json'
+      - 'info.yaml'
   workflow_dispatch:
 
 jobs:
@@ -39,7 +47,7 @@ jobs:
         uses: TinyTapeout/tt-gds-action/gl_test@ihp-cmos5l
 
   viewer:
-    # Pages deployment is restricted to main; hardware qualification runs on every push.
+    # Pages deployment is restricted to main after an M0 physical-input change.
     if: github.ref == 'refs/heads/main'
     needs: gds
     runs-on: ubuntu-24.04

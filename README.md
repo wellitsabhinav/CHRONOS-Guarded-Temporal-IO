@@ -168,10 +168,13 @@ See the [A–N evaluation](docs/results/m2_initial_evaluation.md) and
 [programming contract](docs/m2_programmable_core.md). No M2 physical campaign
 has started; M2 pushes run logic CI and exclude automatic GDS.
 
-M0 temporal decoupling → M1 guarded futures → M2 programmable control core
-→ M3 firmware UART/SPI/I²C → M4 physical qualification.
-The next architectural objective is **`CHRONOS_M3_ORDINARY_SPI_PEER_TIMING`**;
-qualify ordinary programmable response against varying external peer clocks.
+M3 is complete at **CHRONOS_M3_TIMING_CONTRACT_ESTABLISHED_NO_BASELINE_ADVANTAGE**.
+The frozen ordinary core supports the coordinated SPI-like fixture at an
+8-clock peer period across the tested phase grid. A small relative-WAIT
+responder matches its precise output timing and setup margins; edge reaction
+supports shorter periods. Stop CHRONOS expansion and physical work on this
+result. See the [M3 A–N report](docs/m3_ordinary_spi_peer_timing.md) for the
+timing contract, fair baselines, limitations and reproducible negative evidence.
 See [roadmap](docs/roadmap.md).
 
 Current limits: synchronous host only, 15 clocks per loaded event, FIFO

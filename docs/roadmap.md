@@ -5,8 +5,8 @@
 | M0 temporal decoupling | CHRONOS_M0_TEMPORAL_DECOUPLING_CONFIRMED | Model, ordered FIFO/dispatcher, loadable top, faults/reset, differential evidence and physical checkpoint |
 | M1 guarded futures | CHRONOS_M1_GUARDED_FUTURES_LOGIC_ESTABLISHED | Alternative bundles, registered predicates/generations, deterministic misses, small differential/proof/synthesis evidence and late-decision experiment |
 | M2 programmable core | CHRONOS_M2_GUARDS_NO_GO_ORDINARY_DEFAULT | 16-word sequencer, program loader, synchronized sampling, owned token reclamation; guard utility failed |
-| M3 protocol set | CHRONOS_M3_PROTOCOL_SET_COMPLETE | Firmware UART, SPI and I2C on the same programmable architecture |
-| M4 physical qualification | CHRONOS_M4_PHYSICAL_QUALIFIED | 6x4 GDS, timing, precheck, DRC, LVS as supplied, routed gate tests and submission-quality documentation |
+| M3 ordinary SPI peer timing | CHRONOS_M3_TIMING_CONTRACT_ESTABLISHED_NO_BASELINE_ADVANTAGE | Coordinated external sampling contract established; relative-WAIT baseline matches timestamps/setup |
+| Further CHRONOS physical qualification | STOPPED_AT_M3_UTILITY_GATE | No new campaign justified by the measured negative result |
 
 Current classification is maintained in README and results. A logic pass
 with unavailable physical hardening is
@@ -15,6 +15,8 @@ is `CHRONOS_M0_INCOMPLETE`. Tool blockages are named explicitly rather than
 converted into success. Full formal induction remains future qualification.
 
 ## M1 decision: GO at the initial logic gate
+
+This section records historical M1 reasoning, superseded by M2/M3 NO-GO gates.
 
 **CURRENT IMPLEMENTATION:** one atomic alternative bundle, four predicates,
 registered T-1 resolution, write-once generations, fail-closed GUARD_MISS.
@@ -46,3 +48,17 @@ benefit. See [M2 evaluation](results/m2_initial_evaluation.md). Retain reproduci
 guard experiments and stop that expansion. The sole next milestone is
 **CHRONOS_M3_ORDINARY_SPI_PEER_TIMING**: qualify ordinary correctness against
 varying external clocks. No M2 physical campaign starts on the negative result.
+
+## M3 decision: timing contract, no baseline advantage
+
+All 160 tested points have identical CHRONOS/relative-WAIT complete-response
+success. The coordinated 8-clock all-tested-phase timing contract is real;
+its zero jitter and four-clock worst setup are matched by ordinary relative
+WAIT/action execution. Edge reaction reaches 6 clocks with setup approaching
+zero. See [M3 evaluation](m3_ordinary_spi_peer_timing.md).
+
+Stop architectural expansion and physical qualification. The sole proposed
+reframe experiment is EVENTLESS_CS_FRAMED_SPI_UTILITY_GATE: repeated four-bit
+CS-framed responses at period 8 with one-clock setup and arbitrary CS/host
+alignment. It is a proposal for the simpler general response mechanism, not
+an automatically launched next CHRONOS milestone.
