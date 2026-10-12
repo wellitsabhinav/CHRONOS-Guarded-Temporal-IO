@@ -1,11 +1,19 @@
 # CHRONOS — Guarded Temporal I/O Processor
 
-CHRONOS is a programmable temporal I/O architecture intended to decouple
+**Final status: archived research outcome — `EVENTLESS_SPI_FRAMING_INSUFFICIENT`.**
+Architectural development has ended. Guards added no measured protocol benefit;
+global timestamps matched simpler WAIT timing; the final eventless descriptor
+failed autonomous CS framing and rearm. No next milestone or physical campaign
+is planned. See the [final A–N report](docs/eventless_cs_framed_spi_gate.md) for
+the gate, reproducible evidence and accepted/rejected hypotheses from M0 onward.
+The repository remains available for inspection and historical reproduction.
+
+CHRONOS explored a programmable temporal I/O architecture intended to decouple
 protocol-edge timing from variable software and control-flow latency.
 Accepted future GPIO events retain their scheduled clock edges while the
 producer continues working, stalls, or stops.
 
-**Current status: `CHRONOS_M0_PHYSICAL_VERIFIED`**
+**Historical production checkpoint: `CHRONOS_M0_PHYSICAL_VERIFIED`**
 Official GDS, final STA/DRC/LVS, precheck and all four routed gate suites
 pass at qualified head `7166d8b`. Final artifact metrics and production
 source equality were inspected. PR closure requires mandatory CI at the
@@ -45,7 +53,7 @@ pin changes                         producer continues independently
                                     pin changes on schedule
 ```
 
-The intended later research direction is bounded guarded future I/O:
+The original guarded-future hypothesis, later rejected at its utility gate, was:
 
 ```text
                     unresolved predicate P0
@@ -61,7 +69,7 @@ The intended later research direction is bounded guarded future I/O:
                  original timestamp preserved
 ```
 
-This is a working hypothesis, not an established novelty claim. Timestamped
+This was a research hypothesis, without an established novelty claim. Timestamped
 GPIO, deterministic I/O, buffered timed output, deadlines, CPU-independent
 output compare and first-class time all have prior art. XMOS timed buffered
 ports are directly relevant to M0. Read the [research positioning](docs/research/architecture_positioning.md)
@@ -71,7 +79,7 @@ and [primary-source survey](docs/research/prior_art.md).
 
 The [Jane Street protocol-emulator competition](https://blog.janestreet.com/protocol-emulator-asic-competition/)
 targets open-source programmable ASICs on IHP 130 nm CMOS5L through Tiny
-Tapeout. Current allocation is **6×4**, deadline **January 18, 2027**.
+Tapeout. The original project target was **6×4**, with a **January 18, 2027** deadline.
 CHRONOS starts from the official `cmos5l` template and retains its Apache-2.0
 license and prescribed GDS/precheck workflows. M0 alone does not satisfy
 the eventual UART/SPI/I²C demonstration requirement.
@@ -159,6 +167,15 @@ Exact provenance, measurement scope and flow outcome are in
 database or waveform is committed.
 
 ## Roadmap and limitations
+
+The roadmap is now closed. The final eventless gate is a negative reframe
+experiment, not M4. Its candidate is the existing edge-reactive baseline;
+no new production architecture was introduced. See the
+[final report](docs/eventless_cs_framed_spi_gate.md),
+[sample CSV](docs/results/eventless_samples.csv), and
+[structural comparison](docs/results/eventless_structure.json).
+`make eventless-experiment` reproduces the bounded simulation;
+`make eventless-synth` requires the already pinned CMOS5L Liberty.
 
 M2's programmable companion and real nibble-loader wrapper are implemented.
 Classification: **CHRONOS_M2_GUARDS_NO_GO_ORDINARY_DEFAULT**. Guarded and fused
