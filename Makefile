@@ -5,6 +5,11 @@ PYTHON ?= python3
 .PHONY: m1-test m1-formal m1-synth m1-experiment
 .PHONY: m2-test m2-formal m2-synth m2-experiment
 .PHONY: m3-experiment
+.PHONY: eventless-experiment eventless-synth
+eventless-experiment:
+	$(PYTHON) scripts/eventless_experiment.py
+eventless-synth:
+	$(PYTHON) scripts/eventless_synth.py --output docs/results/eventless_structure.json
 m3-experiment:
 	$(PYTHON) scripts/m3_experiment.py
 m2-test:

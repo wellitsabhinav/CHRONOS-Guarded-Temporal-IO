@@ -1,0 +1,34 @@
+name: Eventless CS framing gate
+on:
+  push:
+    branches: [development/eventless-cs-framed-spi-gate]
+  pull_request:
+    paths: [model/eventless_peer.py, test/eventless_gate_tb.v, test/test_eventless_gate.py, scripts/eventless_experiment.py, .github/workflows/eventless.yaml]
+  workflow_dispatch:
+jobs:
+  framing:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Install simulation dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+          pip install -r test/requirements.txt
+      - name: Reproduce bounded gate
+        run: python scripts/eventless_experiment.py
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: eventless-gate-evidence
+          path: |
+            build/eventless_gate_tb/results.xml
+            build/eventless_gate_tb/eventless_gate_raw.json
+            docs/results/eventless_gate.json
+            docs/results/eventless_samples.csv
