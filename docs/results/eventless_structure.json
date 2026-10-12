@@ -1,0 +1,111 @@
+{
+  "scope": "unchanged test-only responder RTL; paired full descriptors/debug ports; no routing/CTS/STA",
+  "aliases": {
+    "eventless": "edge_reactive"
+  },
+  "tool_versions": {
+    "yosys": "Yosys 0.30+48 (git sha1 b5b0b7e83, x86_64-w64-mingw32-g++ 13.1.0 -march=nocona -msahf -mtune=generic -O2 -Os)",
+    "python": "3.12.5",
+    "abc": "UC Berkeley, ABC 1.01 (compiled Jul 12 2023 15:11:18)"
+  },
+  "liberty_filename": "sg13cmos5l_stdcell_typ_1p20V_25C.lib",
+  "liberty_sha256": "34163f3e7de9f854afac57332ba06f1739b78e7ac35660a8a5ddd39c570124ad",
+  "runner_sha256": "fd4689ac5106129c523ee69330daa89e9274f814c1b8d052cbc8d7ff63d9c9a0",
+  "configuration": {
+    "gpio_w": 24,
+    "raw_input_w": 8,
+    "synchronizer_stages": 2,
+    "synchronizer_bits": 16,
+    "max_response_length": 4,
+    "relative_wait_counter_w": 24,
+    "descriptor_inputs_tied": false,
+    "existing_debug_ports_preserved": true
+  },
+  "state_count_scope": "proc/flatten sequential register widths before synth optimization; includes debug state",
+  "queue_count_scope": "no action/event queue or inferred memory in either source",
+  "results": {
+    "edge_reactive": {
+      "top": "m3_eventless",
+      "cells": 631,
+      "area_um2": 13099.968,
+      "flops": 151,
+      "state_bits_before_optimization": 152,
+      "synchronizer_bits": 16,
+      "queue_bits": 0,
+      "inferred_memory_bits": 0,
+      "mapped_memories": 0,
+      "cell_types": {
+        "sg13cmos5l_a21oi_1": 72,
+        "sg13cmos5l_and2_1": 111,
+        "sg13cmos5l_and3_1": 1,
+        "sg13cmos5l_dfrbpq_1": 151,
+        "sg13cmos5l_inv_1": 3,
+        "sg13cmos5l_mux2_1": 114,
+        "sg13cmos5l_mux4_1": 11,
+        "sg13cmos5l_nand2_1": 31,
+        "sg13cmos5l_nand2b_1": 11,
+        "sg13cmos5l_nand3_1": 2,
+        "sg13cmos5l_nand4_1": 3,
+        "sg13cmos5l_nor2_1": 22,
+        "sg13cmos5l_nor2b_1": 21,
+        "sg13cmos5l_nor3_1": 2,
+        "sg13cmos5l_nor4_1": 1,
+        "sg13cmos5l_o21ai_1": 56,
+        "sg13cmos5l_or2_1": 2,
+        "sg13cmos5l_or3_1": 1,
+        "sg13cmos5l_xnor2_1": 6,
+        "sg13cmos5l_xor2_1": 10
+      },
+      "source_sha256": {
+        "test/m3_eventless.v": "cb13901baf110e9b4d5160a940d5a4f1356c3164a96619a4eb500943122ca983"
+      }
+    },
+    "relative_wait": {
+      "top": "eventless_wait_synth",
+      "cells": 950,
+      "area_um2": 16142.679,
+      "flops": 193,
+      "state_bits_before_optimization": 194,
+      "synchronizer_bits": 16,
+      "queue_bits": 0,
+      "inferred_memory_bits": 0,
+      "mapped_memories": 0,
+      "cell_types": {
+        "sg13cmos5l_a21o_1": 2,
+        "sg13cmos5l_a21oi_1": 200,
+        "sg13cmos5l_a22oi_1": 1,
+        "sg13cmos5l_and2_1": 34,
+        "sg13cmos5l_and3_1": 6,
+        "sg13cmos5l_and4_1": 2,
+        "sg13cmos5l_dfrbpq_1": 193,
+        "sg13cmos5l_inv_1": 16,
+        "sg13cmos5l_mux2_1": 2,
+        "sg13cmos5l_mux4_1": 4,
+        "sg13cmos5l_nand2_1": 249,
+        "sg13cmos5l_nand2b_1": 41,
+        "sg13cmos5l_nand3_1": 3,
+        "sg13cmos5l_nand3b_1": 4,
+        "sg13cmos5l_nand4_1": 6,
+        "sg13cmos5l_nor2_1": 33,
+        "sg13cmos5l_nor2b_1": 5,
+        "sg13cmos5l_nor3_1": 9,
+        "sg13cmos5l_nor4_1": 24,
+        "sg13cmos5l_o21ai_1": 85,
+        "sg13cmos5l_or2_1": 4,
+        "sg13cmos5l_or3_1": 1,
+        "sg13cmos5l_xnor2_1": 18,
+        "sg13cmos5l_xor2_1": 8
+      },
+      "source_sha256": {
+        "test/m3_countdown.v": "177c273082a0089e339c966ead56bbccc93e685c6c3e0cc1e52a1c8a5bcedf1e",
+        "test/eventless_wait_synth.v": "a621e29d1a9028a4a59fd5fc2d323625458e027accc7551235a2036c8cb77acb"
+      }
+    }
+  },
+  "timing_estimate": null,
+  "limitations": [
+    "Mapped area does not establish clock frequency, critical-path delay or physical cost.",
+    "These are test-only descriptor implementations, not qualified production peripherals.",
+    "Debug interfaces are retained in both mappings; exact ports differ with responder semantics."
+  ]
+}
