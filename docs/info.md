@@ -1,11 +1,15 @@
 # How it works
 
+This page documents the historical qualified M0 pad top. CHRONOS architectural
+development ended after negative M2/M3/eventless utility gates. See the
+repository's final eventless A–N report; no successor hardware is planned.
+
 CHRONOS M0 accepts future atomic GPIO states into an eight-entry ordered
 FIFO. A 32-bit timer dispatches the head at its timestamp independently
 of later host activity. Every event updates eight dedicated outputs,
 eight bidirectional outputs and eight bidirectional enables together.
 
-M0 is the temporal substrate for a future guarded temporal I/O processor.
+M0 was the temporal substrate for the guarded temporal I/O research hypothesis.
 It does not yet contain a CPU, guarded futures or UART/SPI/I2C firmware.
 Timed buffered I/O has established prior art; no novelty claim is made
 for M0. See the repository research notes for primary references.
@@ -52,4 +56,5 @@ internal time/dispatch continue. Re-selection reveals the current state.
 
 A synchronous host/FPGA or test controller. No external oscillator beyond
 clk is required. No actual board bring-up or fabricated-silicon behavior
-has been verified. Bidirectional electrical bus behavior is a later gate.
+has been verified. Autonomous shared-bus SPI behavior failed the final utility
+gate; electrical bus qualification was not performed.

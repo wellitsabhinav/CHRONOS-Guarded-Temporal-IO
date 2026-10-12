@@ -4,6 +4,8 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
+from importlib.metadata import version
 
 from run_sim import ROOT,run
 
@@ -12,6 +14,15 @@ FROZEN='df29e14cea7e13489e1b128a590f1f13c3e58681'
 
 def frame_metrics(row,path):
     m=row[path]
+    T=10000
+    def captured(raw_time,stage,pin):
+        if raw_time==-1:return None
+        if not any(v['pin']==pin and v['value']==1 and v['t']==raw_time for v in row['raw_edges']):return None
+        t=((raw_time+T-1)//T)*T+(stage-1)*T
+        key=f'sync{stage}';mask=8 if pin=='cs' else 4
+        now=next((s[key] for s in reversed(m['states']) if s['t']<=t),0)
+        old=next((s[key] for s in reversed(m['states']) if s['t']<=t-T),0)
+        return t if now&mask and not old&mask else None
     result=[]
     for i,f in enumerate(row['frames']):
         cs=f['cs'];command=cs+40000+f['phase'];release=f['release']
@@ -22,20 +33,23 @@ def frame_metrics(row,path):
         emissions=[v for v in m['emissions'] if cs<=v['t']<nxt]
         selected=[s for s in m['samples'] if s['frame']==i and s['selected']]
         release_edges=[v['t'] for v in transitions if v['oe']==0 and v['t']>=release] if release!=-1 else []
-        sync1=[v['t'] for v in m['states'] if v['t']>=command and (v['sync1']&4)]
-        sync2=[v['t'] for v in m['states'] if v['t']>=command and (v['sync2']&4)]
-        cs_capture=[v['t'] for v in m['states'] if release!=-1 and v['t']>=release and (v['sync2']&8)]
+        sync1=captured(command,1,'sck');sync2=captured(command,2,'sck')
+        cs_stage1=captured(release,1,'cs');cs_stage2=captured(release,2,'cs')
         idle=[v['t'] for v in m['states'] if decisions and v['t']>=decisions[0]['t'] and not v['active']]
-        rearmed=[v['t'] for v in m['states'] if release!=-1 and v['t']>=release and v['armed']]
+        rearmed=[v['t'] for j,v in enumerate(m['states']) if j and release!=-1 and
+                 v['t']>=release and v['armed'] and not m['states'][j-1]['armed']]
         first=emissions[0]['t'] if emissions else None
         first_drive=next((v['t'] for v in transitions if v['oe']),None)
         oe_release=release_edges[0] if release_edges else None
         result.append(dict(frame=i,host_start=f['start'],CS_assert=cs,raw_command=command,
-            sync1=next(iter(sync1),None),sync2=next(iter(sync2),None),
+            sync1=sync1,sync2=sync2,
             decision=decisions[0]['t'] if decisions else None,first_action=first,
             first_public_drive=first_drive,OE_at_CS_assert=m['frame_entries'][i]['oe'],
-            output_actions=emissions,public_transitions=transitions,
-            CS_deassert=release,CS_sync2_capture=next(iter(cs_capture),None),
+            output_actions=emissions,decision_edges=[dict(v,raw_source=next((edge['t']
+                for edge in row['raw_edges'] if edge['pin']=='sck' and edge['value']==1
+                and v['t']-3*T<edge['t']<=v['t']-2*T),None)) for v in decisions],
+            public_transitions=transitions,CS_deassert=release,
+            CS_sync1_capture=cs_stage1,CS_sync2_capture=cs_stage2,
             OE_deassert=oe_release,descriptor_idle=next(iter(idle),None),
             descriptor_rearm=next(iter(rearmed),None),
             next_command=(nxt+40000+row['frames'][i+1]['phase']) if i+1<len(row['frames']) else None,
@@ -55,14 +69,17 @@ def curate(result):
            'CS_at_output_0','CS_at_output_1','missing_SCK_fall','extra_SCK',
            'unsupported_two_command_clocks','missing_CS_release','missing_release_then_next',
            'START_while_response_busy','reset_during_response','reset_before_next',
-           'refine_-60001_0','refine_-60000_0','refine_-59999_0'}
+           'refine_-60001_0','refine_-60000_0','refine_-59999_0',
+           'rearm_at_final_capture_-10000','rearm_at_final_capture_0',
+           'turnaround_phase_0_release_0','turnaround_phase_9999_release_9999'}
     for row in rows:
         point=dict(name=row['name'],group=row['group'],frames=row['frames'])
         for path in ('eventless','relative_wait'):
             m=row[path];fm=frame_metrics(row,path)
             point[path]={k:m[k] for k in ('payload_success','strict_success','unsafe_oe_ps',
-                'late_bit_transitions','minimum_selected_setup_ps','frames_correct')}
-            point[path]['frame_metrics']=fm
+                'release_present','late_bit_transitions','late_drive_transitions','minimum_selected_setup_ps','frames_correct')}
+            point[path]['frame_metrics']=[{k:v for k,v in f.items() if k not in
+                ('output_actions','public_transitions')} for f in fm]
             for sample in m['samples']:
                 f=row['frames'][sample['frame']]
                 samples.append(dict(case=row['name'],group=row['group'],path=path,
@@ -70,7 +87,16 @@ def curate(result):
                     CS_deassert=f['release'] if f['release'] is not None else f['cs']+380001,
                     **sample))
         points.append(point)
-        if row['name'] in names:witnesses.append(row)
+        if row['name'] in names:
+            # The complete per-clock trace remains in ignored build/CI artifact.
+            # Retain external observations plus a few command/release snapshots.
+            for path in ('eventless','relative_wait'):
+                m=row[path]
+                interesting={v for f in frame_metrics(row,path) for k,v in f.items()
+                    if k in ('sync1','sync2','decision','CS_sync2_capture','OE_deassert',
+                             'descriptor_idle','descriptor_rearm') and v is not None}
+                m['selected_state_snapshots']=[s for s in m.pop('states') if s['t'] in interesting]
+            witnesses.append(row)
     result['classification']='EVENTLESS_SPI_FRAMING_INSUFFICIENT'
     result['baseline_identity']='eventless is the unchanged M3 edge-reactive baseline; one RTL path, two names'
     result['aggregate']={path:{group:dict(cases=sum(r['group']==group for r in rows),
@@ -104,6 +130,7 @@ def main():
         for p in paths},iverilog=subprocess.run([os.environ.get('IVERILOG','iverilog'),'-V'],
             capture_output=True,text=True).stdout.splitlines()[0],
         command='python scripts/eventless_experiment.py',physical_campaign=False,
+        python=sys.version.split()[0],cocotb=version('cocotb'),
         same_time_convention='raw updates and peer samples precede internal clock; RTL observed after NBA')
     (ROOT/'docs/results/eventless_gate.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result['aggregate'],indent=2))

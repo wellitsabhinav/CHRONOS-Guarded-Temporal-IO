@@ -29,9 +29,11 @@ class Harness:
         samples={t:(i,b) for i,f in enumerate(case.frames) for b,t in enumerate(f.samples)}
         times=sorted(ticks|falls|set(events)|set(samples))
         metrics={p:dict(samples=[],transitions=[],decisions=[],emissions=[],states=[],
-                        frame_entries=[],unsafe_oe_ps=0,late_bit_transitions=[],stable_since=0)
+                        frame_entries=[],unsafe_oe_ps=0,late_bit_transitions=[],
+                        late_drive_transitions=[],stable_since=0)
                  for p in ('eventless','relative_wait')}
         raw=dict(cs=1,sck=0,mosi=0)
+        raw_edges=[]
         outputs=dict(eventless=0,relative_wait=0)
         last=0
         elapsed=0
@@ -49,10 +51,12 @@ class Harness:
                     if ((old^new)&0x010100):
                         m['stable_since']=t
                         m['transitions'].append(dict(t=t,miso=(new>>8)&1,oe=(new>>16)&1))
-                        if ((old^new)&0x100) and (new>>16)&1 and any(f.release!=-1 and f.end<=t<
+                        after_release=any(f.release!=-1 and f.end<=t<
                                 (case.frames[i+1].cs if i+1<len(case.frames) else final+1)
-                                for i,f in enumerate(case.frames)):
-                            m['late_bit_transitions'].append(t)
+                                for i,f in enumerate(case.frames))
+                        if (new>>16)&1 and after_release:
+                            m['late_drive_transitions'].append(t)
+                            if (old^new)&0x100:m['late_bit_transitions'].append(t)
                     outputs[p]=new
             last=t
 
@@ -61,7 +65,11 @@ class Harness:
                 await Timer(t-elapsed,unit='ps')
                 elapsed=t
             public_observe(t)
-            raw.update(events.get(t,{}))
+            update=events.get(t,{})
+            for pin in ('cs','sck'):
+                if pin in update and update[pin]!=raw[pin]:
+                    raw_edges.append(dict(t=t,pin=pin,value=update[pin]))
+            raw.update(update)
             for i,f in enumerate(case.frames):
                 if t==f.cs:
                     for p,m in metrics.items():
@@ -113,14 +121,17 @@ class Harness:
                     if not m['states'] or any(state[k]!=m['states'][-1][k] for k in state if k!='t'):
                         m['states'].append(state)
         public_observe(final)
+        release_present=all(f.release!=-1 and any(edge['pin']=='cs' and edge['value']==1
+            and edge['t']==f.end for edge in raw_edges) for f in case.frames)
         for p,m in metrics.items():
             m.pop('stable_since')
             m['payload_success']=all(s['correct'] for s in m['samples'])
-            m['strict_success']=m['payload_success'] and not m['unsafe_oe_ps'] and not m['late_bit_transitions']
+            m['release_present']=release_present
+            m['strict_success']=m['payload_success'] and release_present and not m['unsafe_oe_ps'] and not m['late_drive_transitions']
             m['minimum_selected_setup_ps']=min((s['setup_ps'] for s in m['samples'] if s['selected']),default=None)
             m['frames_correct']=[all(s['correct'] for s in m['samples'] if s['frame']==i) for i in range(len(case.frames))]
         return dict(name=case.name,group=case.group,frames=[asdict(f) for f in case.frames],
-                    starts=starts,resets=case.resets,**metrics)
+                    starts=starts,resets=case.resets,raw_edges=raw_edges,**metrics)
 
 
 @cocotb.test()
