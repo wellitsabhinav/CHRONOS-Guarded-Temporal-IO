@@ -113,13 +113,15 @@ def repeated_cases():
         cases.append(train(f'release_phase_{rp}',release_phase=rp))
     for gap in (T-1,T+1):
         cases.append(train(f'gap_capture_boundary_{gap}',gap=gap,rearm=0))
-    for offset in (-T,-1,0,1,T,2*T):
+    for offset in (-T,0,T,2*T):
         c=train(f'rearm_at_final_capture_{offset}',gap=4*T)
         # Old final sample C+2 is around CS+39 for phase=1.
         c.frames[1].start=(c.frames[0].samples[-1]+T-1)//T*T+2*T+offset
-        # Host START remains a clocked control: snap non-clock offsets down.
-        c.frames[1].start=c.frames[1].start//T*T
         cases.append(c)
+    for phase in (0,1,T//2,T-1):
+        for rp in (0,T-1):
+            cases.append(train(f'turnaround_phase_{phase}_release_{rp}',gap=3*T,
+                               rearm=2*T,phase=phase,release_phase=rp))
     return cases
 
 
@@ -127,7 +129,8 @@ def adversarial_cases():
     s=40*T
     cases=[]
     # CS release before capture, within response and around final emit.
-    for offset in (3*T,4*T+1,5*T,16*T,32*T-1,32*T,32*T+1,36*T+2,48*T):
+    for offset in (3*T,4*T+1,5*T-1,5*T,5*T+1,6*T-1,6*T,6*T+1,
+                   16*T,32*T-1,32*T,32*T+1,36*T+2,48*T):
         cases.append(single(f'CS_release_{offset}',release=s+offset))
     cases += [single('missing_CS_release',release=-1),
               single('missing_command',missing_command=True),

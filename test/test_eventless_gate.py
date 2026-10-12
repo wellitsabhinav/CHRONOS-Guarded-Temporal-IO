@@ -29,13 +29,15 @@ class Harness:
         samples={t:(i,b) for i,f in enumerate(case.frames) for b,t in enumerate(f.samples)}
         times=sorted(ticks|falls|set(events)|set(samples))
         metrics={p:dict(samples=[],transitions=[],decisions=[],emissions=[],states=[],
-                        unsafe_oe_ps=0,late_bit_transitions=[],stable_since=0)
+                        frame_entries=[],unsafe_oe_ps=0,late_bit_transitions=[],stable_since=0)
                  for p in ('eventless','relative_wait')}
         raw=dict(cs=1,sck=0,mosi=0)
         outputs=dict(eventless=0,relative_wait=0)
         last=0
         elapsed=0
         d.clk.value=0;d.rst_n.value=0;d.start.value=0;d.gpio_in.value=8;d.first_delay.value=8
+        # Let the low clock settle between independent cases before reset edge 0.
+        await Timer(T//2,unit='ps')
 
         def public_observe(t,new_outputs=None):
             nonlocal last
@@ -47,7 +49,7 @@ class Harness:
                     if ((old^new)&0x010100):
                         m['stable_since']=t
                         m['transitions'].append(dict(t=t,miso=(new>>8)&1,oe=(new>>16)&1))
-                        if ((old^new)&0x100) and any(f.release!=-1 and f.end<=t<
+                        if ((old^new)&0x100) and (new>>16)&1 and any(f.release!=-1 and f.end<=t<
                                 (case.frames[i+1].cs if i+1<len(case.frames) else final+1)
                                 for i,f in enumerate(case.frames)):
                             m['late_bit_transitions'].append(t)
@@ -60,6 +62,11 @@ class Harness:
                 elapsed=t
             public_observe(t)
             raw.update(events.get(t,{}))
+            for i,f in enumerate(case.frames):
+                if t==f.cs:
+                    for p,m in metrics.items():
+                        m['frame_entries'].append(dict(frame=i,t=t,miso=(outputs[p]>>8)&1,
+                                                       oe=(outputs[p]>>16)&1))
             gpio=(raw['cs']<<3)|(raw['sck']<<2)|(raw['mosi']<<1)
             d.gpio_in.value=gpio
             if t in samples:

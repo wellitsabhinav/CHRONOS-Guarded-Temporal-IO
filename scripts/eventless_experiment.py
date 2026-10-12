@@ -25,13 +25,15 @@ def frame_metrics(row,path):
         sync1=[v['t'] for v in m['states'] if v['t']>=command and (v['sync1']&4)]
         sync2=[v['t'] for v in m['states'] if v['t']>=command and (v['sync2']&4)]
         cs_capture=[v['t'] for v in m['states'] if release!=-1 and v['t']>=release and (v['sync2']&8)]
-        idle=[v['t'] for v in m['states'] if release!=-1 and v['t']>=release and not v['active']]
+        idle=[v['t'] for v in m['states'] if decisions and v['t']>=decisions[0]['t'] and not v['active']]
         rearmed=[v['t'] for v in m['states'] if release!=-1 and v['t']>=release and v['armed']]
-        first=next((v['t'] for v in transitions if v['oe']),None)
+        first=emissions[0]['t'] if emissions else None
+        first_drive=next((v['t'] for v in transitions if v['oe']),None)
         oe_release=release_edges[0] if release_edges else None
         result.append(dict(frame=i,host_start=f['start'],CS_assert=cs,raw_command=command,
             sync1=next(iter(sync1),None),sync2=next(iter(sync2),None),
-            decision=decisions[0]['t'] if decisions else None,first_output=first,
+            decision=decisions[0]['t'] if decisions else None,first_action=first,
+            first_public_drive=first_drive,OE_at_CS_assert=m['frame_entries'][i]['oe'],
             output_actions=emissions,public_transitions=transitions,
             CS_deassert=release,CS_sync2_capture=next(iter(cs_capture),None),
             OE_deassert=oe_release,descriptor_idle=next(iter(idle),None),
@@ -49,7 +51,7 @@ def curate(result):
     rows=result.pop('rows')
     samples=[];points=[];witnesses=[]
     names={'alternating_16','same_8','autonomous_no_second_START','long_idle','gap_0_rearm_0',
-           'gap_10000_rearm_0','gap_30000_rearm_0','CS_release_50000','CS_at_output_-1',
+           'gap_10000_rearm_0','gap_30000_rearm_0','CS_release_50000','CS_release_50001','CS_at_output_-1',
            'CS_at_output_0','CS_at_output_1','missing_SCK_fall','extra_SCK',
            'unsupported_two_command_clocks','missing_CS_release','missing_release_then_next',
            'START_while_response_busy','reset_during_response','reset_before_next',
